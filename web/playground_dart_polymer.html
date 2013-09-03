@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sample app</title>
+    <link rel="stylesheet" href="playground_dart_polymer.css">
+    <script src="packages/polymer/boot.js"></script>
+  </head>
+  <body>
+    <h1>Playground dart polymer</h1>
+
+    <template id="buchstabiertafel" bind>
+      <input type="text" placeholder="enter text" value="{{text}}" />
+      <div>Deutsch: {{germanPhoneticAlphabet}}</div>
+      <div>NATO: {{natoPhoneticAlphabet}}</div>
+    </template>
+
+    <script type="application/dart" src="playground_dart_polymer.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>

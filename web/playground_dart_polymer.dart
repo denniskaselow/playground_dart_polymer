@@ -30,7 +30,7 @@ class PhoneticAlphabet extends Object with ObservableMixin {
   String germanPhoneticAlphabet;
   @observable
   String natoPhoneticAlphabet;
-  @observable
+
   set text(String value) {
     _text = value;
     germanPhoneticAlphabet = value.split('').map(convertGerman).join(' ');

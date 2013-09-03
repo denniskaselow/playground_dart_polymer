@@ -38,7 +38,7 @@ class PhoneticAlphabet extends Object with ObservableMixin {
   }
 
   String convertGerman(c) => convert(c, GERMAN);
-  String convertNato(c) => convert(c, GERMAN);
+  String convertNato(c) => convert(c, NATO);
 
   String convert(String char, Map<String, String> converterMap) {
     var c = char.toLowerCase();

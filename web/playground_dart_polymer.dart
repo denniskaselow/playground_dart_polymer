@@ -1,10 +1,7 @@
 import 'dart:html';
 import 'package:polymer/polymer.dart';
-import 'package:mdv/mdv.dart' as mdv;
 
 void main() {
-  mdv.initialize();
-
   var alphabet = new PhoneticAlphabet();
   query('#buchstabiertafel').model = alphabet;
 }
@@ -25,17 +22,16 @@ class PhoneticAlphabet extends Object with ObservableMixin {
     't': 'Tango', 'u': 'Uniform', 'ü': 'Uniform-Echo', 'v': 'Victor', 'w': 'Whiskey',
     'x': 'X-Ray', 'y': 'Yankee', 'z': 'Zulu'};
 
-  String _text;
   @observable
-  String germanPhoneticAlphabet;
-  @observable
-  String natoPhoneticAlphabet;
+  String text;
 
-  set text(String value) {
-    _text = value;
-    germanPhoneticAlphabet = value.split('').map(convertGerman).join(' ');
-    natoPhoneticAlphabet = value.split('').map(convertNato).join(' ');
+  PhoneticAlphabet() {
+    bindProperty(this, const Symbol('text'), () => notifyProperty(this, const Symbol('germanPhoneticAlphabet')));
+    bindProperty(this, const Symbol('text'), () => notifyProperty(this, const Symbol('natoPhoneticAlphabet')));
   }
+
+  String get germanPhoneticAlphabet => text.split('').map(convertGerman).join(' ');
+  String get natoPhoneticAlphabet => text.split('').map(convertNato).join(' ');
 
   String convertGerman(c) => convert(c, GERMAN);
   String convertNato(c) => convert(c, NATO);
@@ -47,6 +43,4 @@ class PhoneticAlphabet extends Object with ObservableMixin {
     }
     return char;
   }
-
-  get text => _text;
 }

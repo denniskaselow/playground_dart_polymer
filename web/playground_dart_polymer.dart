@@ -1,9 +1,15 @@
 import 'dart:html';
 import 'package:polymer/polymer.dart';
+import 'tabs.dart';
 
 void main() {
   var alphabet = new PhoneticAlphabet();
   query('#buchstabiertafel').model = alphabet;
+
+
+  (query('#tabs').xtag as TabsElement).items..add(new Item('Label', 'Content'))
+                                            ..add(new Item('Label2', 'Content2'))
+                                            ..add(new Item('Label3', 'Content3'));
 }
 
 class PhoneticAlphabet extends Object with ObservableMixin {

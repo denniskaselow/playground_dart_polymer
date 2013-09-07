@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <polymer-element name='tabs-element'>
+      <template>
+        <style>
+          #container {
+            display: inline-block;
+          }
+          ul {
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+          }
+          ul > li {
+            display: inline-block;
+            width: 150px;
+            padding: 0px;
+            margin: 0px;
+          }
+          .content {
+            min-height: 200px;
+            padding: 5px 5px 5px 20px;
+            border: 1px black solid;
+            display: none;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            background-color: #bcdeff;
+          }
+          .content.selected {
+            display: block;
+          }
+          .label {
+            cursor: pointer;
+            padding: 10px 0px 5px 20px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            background-color: #deffff;
+          }
+          .label:hover {
+            background-color: #cdefff;
+          }
+          .label.selected {
+            cursor: auto;
+            padding-top: -5px;
+            background-color: #abcdef;
+          }
+        </style>
+        <div id='container'>
+          <ul>
+            <template repeat='{{item in items}}'>
+              <li>
+                <div on-click='selectTab' class='label' id='{{item.id}}'>{{item.label}}</div>
+              </li>
+            </template>
+          </ul>
+          <template repeat='{{item in items}}'>
+            <div class='content' id='{{item.id}}_content'>{{item.content}}</div>
+          </template>
+        </div>
+      </template>
+      <script src="tabs.dart" type="application/dart"></script>
+    </polymer-element>
+  </body>
+</html>

@@ -14,11 +14,13 @@ void main() {
       ..add(new Item('Label3', 'Content3'));
 
   var opinionsElement = query('#opinions').xtag as OpinionsElement;
-  opinionsElement.minValue = 1;
-  opinionsElement.maxValue = 10;
-  opinionsElement.opinions..add(new Opinion('id1'))
-                          ..add(new Opinion('id2'))
-                          ..add(new Opinion('id3'));
+
+  opinionsElement.otherOpinions.addAll(['op1', 'op2']);
+  opinionsElement.opinions..add(new OpinionMatcher(new Opinion('id1'), {'op1': new Opinion('id1', '1'), 'op2': new Opinion('id1', '10')}))
+                          ..add(new OpinionMatcher(new Opinion('id2'), {'op1': new Opinion('id2', '1'), 'op2': new Opinion('id2', '10')}))
+                          ..add(new OpinionMatcher(new Opinion('id2'), {'op1': new Opinion('id3', '1'), 'op2': new Opinion('id3', '10')}));
+
+
 }
 
 class PhoneticAlphabet extends Object with ObservableMixin {

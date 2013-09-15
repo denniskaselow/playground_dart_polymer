@@ -8,14 +8,38 @@
 
         </style>
         <div id='container'>
-          <ul>
-            <template repeat='{{opinion in opinions}}'>
-              <li>
-                <label for='{{opinion.id}}'>{{opinion.id}}: {{opinion.value}}</label>
-                <input id='{{opinion.id}}' type='range' min='{{minValue}}' max='{{maxValue}}' value='{{opinion.value}}' />
-              </li>
-            </template>
-          </ul>
+          <table>
+            <thead>
+              <tr>
+                <th>Opinion</th>
+                <th>your opinion counts!</th>
+                <th template repeat='{{otherOpinion in otherOpinions}}'>
+                  your match with {{otherOpinion}}
+                </th>
+              <tr>
+            </thead>
+            <tbody>
+              <tr template repeat='{{opinion in opinions}}'>
+                <td>
+                  <label for='{{opinion.id}}'>{{opinion.id}}: {{opinion.value}}</label>
+                </td>
+                <td>
+                  <input id='{{opinion.id}}' type='range' min='{{opinion.minValue}}' max='{{opinion.maxValue}}' value='{{opinion.value}}' />
+                </td>
+                <td template repeat='{{otherOpinionId in otherOpinions}}'>
+                  {{opinion.getMatch(otherOpinionId)}}
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan='2'>Total:</td>
+                <td template repeat='{{otherOpinionId in otherOpinions}}'>
+                  {{getTotalMatch(otherOpinionId)}}
+                </td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
       </template>
       <script src="opinions.dart" type="application/dart"></script>

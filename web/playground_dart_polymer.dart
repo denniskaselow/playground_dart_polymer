@@ -1,7 +1,10 @@
 import 'dart:html';
+import 'dart:math';
 import 'package:polymer/polymer.dart';
 import 'tabs.dart';
 import 'opinions.dart';
+
+var random = new Random();
 
 void main() {
   var alphabet = new PhoneticAlphabet();
@@ -13,13 +16,29 @@ void main() {
       ..add(new Item('Label2', 'Content2'))
       ..add(new Item('Label3', 'Content3'));
 
+  List<Question> questions = [new Question('Did you like your breakfast?', ['It was gross!', 'Not so much.', 'I\'ve had better', 'It was okay', 'It was tasty', 'I had a mouthgasm!']),
+                    new Question('Have you voted in the last election?', ['No', 'Yes']),
+                    new Question('How much do you like this application?', ['WTF is this?!', 'Nope, it\'s ugly', 'Maybe', 'Yes', 'Yeah! It\'s awesome!'])
+                  ];
+
   var opinionsElement = query('#opinions').xtag as OpinionsElement;
 
-  opinionsElement.otherOpinions.addAll(['op1', 'op2']);
-  opinionsElement.opinions..add(new OpinionMatcher(new Opinion('id1'), {'op1': new Opinion('id1', '1'), 'op2': new Opinion('id1', '10')}))
-                          ..add(new OpinionMatcher(new Opinion('id2'), {'op1': new Opinion('id2', '1'), 'op2': new Opinion('id2', '10')}))
-                          ..add(new OpinionMatcher(new Opinion('id2'), {'op1': new Opinion('id3', '1'), 'op2': new Opinion('id3', '10')}));
+  var opinionCount = 2 + random.nextInt(3);
+  var otherOpinionIds = new List<String>();
+  for (int i = 1; i <= opinionCount; i++) {
+    otherOpinionIds.add('Opinion $i');
+  }
 
+  for (var question in questions) {
+    var opinion = new Opinion(question.id);
+    Map<String, Opinion> otherOpinions = new Map<String, Opinion>();
+    for (int i = 0; i < opinionCount; i++) {
+      otherOpinions[otherOpinionIds[i]] = opinion.otherOpinion('${random.nextInt(question.answers.length)}');
+    }
+    opinionsElement.opinions.add(new OpinionMatcher(opinion, otherOpinions, minValue: 0, maxValue: question.answers.length - 1));
+  }
+  opinionsElement.otherOpinions.addAll(otherOpinionIds);
+  opinionsElement.questions.addAll(new Map.fromIterable(questions, key: (question) => question.id));
 
 }
 

@@ -11,17 +11,17 @@
           <table>
             <thead>
               <tr>
-                <th>Opinion</th>
-                <th>your opinion counts!</th>
+                <th>Question</th>
+                <th>Select your answer</th>
                 <th template repeat='{{otherOpinion in otherOpinions}}'>
-                  your match with {{otherOpinion}}
+                  match with<br />{{otherOpinion}}
                 </th>
               <tr>
             </thead>
             <tbody>
               <tr template repeat='{{opinion in opinions}}'>
                 <td>
-                  <label for='{{opinion.id}}'>{{opinion.id}}: {{opinion.value}}</label>
+                  <label for='{{opinion.id}}'>{{questions[opinion.id].question}}</label>
                 </td>
                 <td>
                   <input id='{{opinion.id}}' type='range' min='{{opinion.minValue}}' max='{{opinion.maxValue}}' value='{{opinion.value}}' />

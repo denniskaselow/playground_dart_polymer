@@ -2,6 +2,15 @@ library opinions;
 
 import 'package:polymer/polymer.dart';
 
+class Question {
+  static int _count = 0;
+  String id;
+  String question;
+  List<String> answers;
+  Question(this.question, this.answers) {
+    id = 'q${_count++}';
+  }
+}
 
 class Opinion extends Object with ObservableMixin {
   String id;
@@ -54,6 +63,7 @@ class OpinionsElement extends PolymerElement with ObservableMixin {
 
   final ObservableList<OpinionMatcher> opinions = new ObservableList<OpinionMatcher>();
   final ObservableList<String> otherOpinions = new ObservableList<String>();
+  final ObservableMap<String, Question> questions = new ObservableMap<String, Question>();
 
   OpinionsElement() {
     opinions.changes.listen((List<ChangeRecord> records) {
@@ -76,6 +86,6 @@ class OpinionsElement extends PolymerElement with ObservableMixin {
         match += opinion._getMatch(groupId) / opinions.length;
       }
     }
-    return (match*100).toStringAsFixed(2) + '%';;
+    return (match*100).toStringAsFixed(2) + '%';
   }
 }

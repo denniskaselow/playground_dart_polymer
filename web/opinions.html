@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <polymer-element name='opinions-element'>
+      <template>
+        <style>
+
+        </style>
+        <div id='container'>
+          <ul>
+            <template repeat='{{opinion in opinions}}'>
+              <li>
+                <label for='{{opinion.id}}'>{{opinion.id}}: {{opinion.value}}</label>
+                <input id='{{opinion.id}}' type='range' min='{{minValue}}' max='{{maxValue}}' value='{{opinion.value}}' />
+              </li>
+            </template>
+          </ul>
+        </div>
+      </template>
+      <script src="opinions.dart" type="application/dart"></script>
+    </polymer-element>
+  </body>
+</html>

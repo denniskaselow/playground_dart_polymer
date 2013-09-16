@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:polymer/polymer.dart';
 import 'tabs.dart';
 import 'opinions.dart';
+import 'numseqguessr.dart';
 
 var random = new Random();
 
@@ -40,6 +41,9 @@ void main() {
   opinionsElement.otherOpinions.addAll(otherOpinionIds);
   opinionsElement.questions.addAll(new Map.fromIterable(questions, key: (question) => question.id));
 
+  var numseqguessrElement = query('#numseqguessr').xtag as NumberSequenceGuesserElement;
+  numseqguessrElement.sequences.add(new Sequence([1, 2, 3], 4));
+  numseqguessrElement.sequences.add(new Sequence([1, 4, 9], 16));
 }
 
 class PhoneticAlphabet extends Object with ObservableMixin {

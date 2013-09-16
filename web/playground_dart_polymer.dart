@@ -42,8 +42,9 @@ void main() {
   opinionsElement.questions.addAll(new Map.fromIterable(questions, key: (question) => question.id));
 
   var numseqguessrElement = query('#numseqguessr').xtag as NumberSequenceGuesserElement;
-  numseqguessrElement.sequences.add(new Sequence([1, 2, 3], 4));
-  numseqguessrElement.sequences.add(new Sequence([1, 4, 9], 16));
+  for (int i = 0; i < 10; i++) {
+    numseqguessrElement.sequences.add(new SequenceGenerator().generate());
+  }
 }
 
 class PhoneticAlphabet extends Object with ObservableMixin {

@@ -6,17 +6,24 @@ import 'package:polymer/polymer.dart';
 @CustomTag('html-graphviz-element')
 class HtmlGraphviz extends PolymerElement with ObservableMixin {
 
+  @observable
+  Element root;
+
   int _elemCounter = 0;
 
+  HtmlGraphviz() {
+    bindProperty(this, const Symbol('root'), () => notifyProperty(this, const Symbol('graph')));
+  }
+
   List<String> get graph {
-    if (null == parent) {
+    if (null == root) {
       return [''];
     }
     var result = new List<String>();
     var child = document.documentElement;
     var childName = child.tagName.toLowerCase();
     var gvElem = new _GraphvizElem('$childName${_elemCounter++}', child);
-    result.add('"${gvElem.id}" [color="0.0, 0.0, 0.85", label="${gvElem.label}"];');
+    _createElemDefinition(gvElem, result);
     _createGraph(gvElem, result);
     return result;
   }
@@ -26,10 +33,15 @@ class HtmlGraphviz extends PolymerElement with ObservableMixin {
     children.forEach((child) {
       var childName = child.tagName.toLowerCase();
       var gvElem = new _GraphvizElem('$childName${_elemCounter++}', child);
-      result.add('"${gvElem.id}" [color="0.0, 0.0, 0.85", label="${gvElem.label}"];');
+
+      _createElemDefinition(gvElem, result);
       result.add('"${currentElement.id}" -> "${gvElem.id}";');
       _createGraph(gvElem, result);
     });
+  }
+
+  void _createElemDefinition(gvElem, result) {
+    result.add('"${gvElem.id}" [color="0.0, 0.0, 0.85", label="${gvElem.label}"];');
   }
 }
 

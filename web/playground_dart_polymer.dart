@@ -14,11 +14,12 @@ void main() {
 
   tabs..add(new Item('Buchstabiertafel', phoneticAlphabetElement))
       ..add(new Item('Q&A', opinionsElement))
-      ..add(new Item('NumberSequenceGuessr', numseqguessrElement));
-//      ..add(new Item('graphviz', graphvizElement));
+      ..add(new Item('NumberSequenceGuessr', numseqguessrElement))
+      ..add(new Item('graphviz', graphvizElement));
 
   initOpinionsElement(opinionsElement);
   initNumSeqElement(numseqguessrElement);
+  initHtmlGraphvizElement(graphvizElement);
 }
 
 void initOpinionsElement(opinionsElement) {
@@ -51,5 +52,9 @@ void initNumSeqElement(numseqguessrElement) {
   for (int i = 0; i < 10; i++) {
     numseqguessrElementXTag.sequences.add(new SequenceGenerator().generate());
   }
+}
+
+void initHtmlGraphvizElement(graphvizElement) {
+  (graphvizElement.xtag as HtmlGraphviz).root = document.documentElement;
 }
 

@@ -14,8 +14,8 @@ void main() {
 
   tabs..add(new Item('Buchstabiertafel', phoneticAlphabetElement))
       ..add(new Item('Q&A', opinionsElement))
-      ..add(new Item('NumberSequenceGuessr', numseqguessrElement))
-      ..add(new Item('graphviz', graphvizElement));
+      ..add(new Item('NumberSequenceGuessr', numseqguessrElement));
+//      ..add(new Item('graphviz', graphvizElement));
 
   initOpinionsElement(opinionsElement);
   initNumSeqElement(numseqguessrElement);

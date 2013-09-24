@@ -5,8 +5,8 @@
     <polymer-element name='html-graphviz-element'>
       <template>
         <pre><code>
-digraph G {
-  {{graph}}
+digraph G {<template repeat="{{g in graph}}">
+    {{g}}</template>
 }</code></pre>
       </template>
       <script src="html_graphviz.dart" type="application/dart"></script>

@@ -7,13 +7,15 @@ var random = new Random();
 
 void main() {
   var tabs = (query('#tabs').xtag as TabsElement).items;
+  var phoneticAlphabetElement = createElement('phonetic-alphabet-element');
   var opinionsElement = createElement('opinions-element');
   var numseqguessrElement = createElement('numseqguessr-element');
-  var phoneticAlphabetElement = createElement('phonetic-alphabet-element');
+  var graphvizElement = createElement('html-graphviz-element');
 
   tabs..add(new Item('Buchstabiertafel', phoneticAlphabetElement))
       ..add(new Item('Q&A', opinionsElement))
-      ..add(new Item('NumberSequenceGuessr', numseqguessrElement));
+      ..add(new Item('NumberSequenceGuessr', numseqguessrElement))
+      ..add(new Item('graphviz', graphvizElement));
 
   initOpinionsElement(opinionsElement);
   initNumSeqElement(numseqguessrElement);

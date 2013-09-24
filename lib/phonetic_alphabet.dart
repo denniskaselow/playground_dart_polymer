@@ -2,7 +2,8 @@ library phonetic_alphabet;
 
 import 'package:polymer/polymer.dart';
 
-class PhoneticAlphabet extends Object with ObservableMixin {
+@CustomTag('phonetic-alphabet-element')
+class PhoneticAlphabet extends PolymerElement with ObservableMixin {
   static const GERMAN = const {'a': 'Anton', 'ä': 'Ärger', 'b': 'Berta',
     'c': 'Cäsar', 'd': 'Dora', 'e': 'Emil', 'f': 'Friedrich',
     'g': 'Gustav', 'h': 'Heinrich', 'i': 'Ida', 'j': 'Julius', 'k': 'Kaufmann',
@@ -19,7 +20,7 @@ class PhoneticAlphabet extends Object with ObservableMixin {
     'x': 'X-Ray', 'y': 'Yankee', 'z': 'Zulu'};
 
   @observable
-  String text;
+  String text = '';
 
   PhoneticAlphabet() {
     bindProperty(this, const Symbol('text'), () => notifyProperty(this, const Symbol('germanPhoneticAlphabet')));

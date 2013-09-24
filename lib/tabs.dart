@@ -4,15 +4,16 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 
 class Item extends Object with ObservableMixin {
-  @observable
-  String id, label, content;
+  String id, label;
+  Element content;
   Item(this.label, this.content);
 }
 
 @CustomTag('tabs-element')
 class TabsElement extends PolymerElement with ObservableMixin {
 
-  ObservableList<Item> items = new ObservableList<Item>();
+  var items = new ObservableList<Item>();
+  var itemMap = new Map<String, Item>();
   String selectedId;
 
   TabsElement() {
@@ -23,6 +24,7 @@ class TabsElement extends PolymerElement with ObservableMixin {
 
         for (int i = index; i < index + addedCount; i++) {
           items[i].id = 'tab$i';
+          itemMap['tab$i'] = items[i];
         }
       });
     });
@@ -41,6 +43,10 @@ class TabsElement extends PolymerElement with ObservableMixin {
     labelSelector = '#${selectedId}';
     contentSelector = '#${selectedId}_content';
     shadowRoot.query(labelSelector).classes.add('selected');
-    shadowRoot.query(contentSelector).classes.add('selected');
+    var contentNode = shadowRoot.query(contentSelector);
+    contentNode.classes.add('selected');
+    if (contentNode.children.isEmpty) {
+      shadowRoot.query(contentSelector).children.add(itemMap[selectedId].content);
+    }
   }
 }

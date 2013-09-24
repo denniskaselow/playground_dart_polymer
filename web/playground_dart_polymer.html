@@ -8,23 +8,13 @@
     <link rel="import" href="packages/playground_dart_polymer/tabs.html">
     <link rel="import" href="packages/playground_dart_polymer/opinions.html">
     <link rel="import" href="packages/playground_dart_polymer/numseqguessr.html">
+    <link rel="import" href="packages/playground_dart_polymer/phonetic-alphabet.html">
     <script src="packages/polymer/boot.js"></script>
   </head>
   <body>
     <h1>Playground dart polymer</h1>
 
-    <numseqguessr-element id='numseqguessr'></numseqguessr-element>
-
-    <template id="buchstabiertafel" bind>
-      <input type="text" placeholder="enter text" value="{{text}}" />
-      <div>Text: {{text}}</div>
-      <div>Deutsch: {{germanPhoneticAlphabet}}</div>
-      <div>NATO: {{natoPhoneticAlphabet}}</div>
-    </template>
-
     <tabs-element id='tabs'></tabs-element>
-
-    <opinions-element id='opinions'></opinions-element>
 
     <script type="application/dart" src="playground_dart_polymer.dart"></script>
   </body>

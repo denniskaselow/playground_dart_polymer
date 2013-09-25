@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <polymer-element name='weight-watch-element'>
+      <template>
+        <label>current weigth: <input value='{{currentWeight}}' type='number' step='0.1' /></label>
+        <label>target weigth: <input value='{{targetWeight}}' type='number' step='0.1' /></label>
+        <label>target date: <input value='{{targetDate}}' type='date' /></label>
+        <div>
+          <ul>
+            <li>timeLeft: {{timeLeft}}</li>
+            <li>lossPerDay: {{lossPerDay}}</li>
+            <li>lossPerWeek: {{lossPerWeek}}</li>
+          </ul>
+        </div>
+      </template>
+      <script src="weight_watch.dart" type="application/dart"></script>
+    </polymer-element>
+  </body>
+</html>

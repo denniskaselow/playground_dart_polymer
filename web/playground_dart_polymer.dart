@@ -11,11 +11,13 @@ void main() {
   var opinionsElement = createElement('opinions-element');
   var numseqguessrElement = createElement('numseqguessr-element');
   var graphvizElement = createElement('html-graphviz-element');
+  var weightWatchElement = createElement('weight-watch-element');
 
   tabs..add(new Item('Buchstabiertafel', phoneticAlphabetElement))
       ..add(new Item('Q&A', opinionsElement))
       ..add(new Item('NumberSequenceGuessr', numseqguessrElement))
-      ..add(new Item('graphviz', graphvizElement));
+      ..add(new Item('graphviz', graphvizElement))
+      ..add(new Item('WeightWatch', weightWatchElement));
 
   initOpinionsElement(opinionsElement);
   initNumSeqElement(numseqguessrElement);

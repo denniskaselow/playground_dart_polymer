@@ -8,14 +8,18 @@ class HtmlGraphviz extends PolymerElement with ObservableMixin {
 
   @observable
   Element root;
+  @observable
+  bool showShadowDom = false;
 
   int _elemCounter = 0;
 
   HtmlGraphviz() {
     bindProperty(this, const Symbol('root'), () => notifyProperty(this, const Symbol('graph')));
+    bindProperty(this, const Symbol('showShadowDom'), () => notifyProperty(this, const Symbol('graph')));
   }
 
   List<String> get graph {
+    _elemCounter = 0;
     if (null == root) {
       return [''];
     }
@@ -31,13 +35,29 @@ class HtmlGraphviz extends PolymerElement with ObservableMixin {
   void _createGraph(_GraphvizElem currentElement, List<String> result) {
     var children = currentElement.children;
     children.forEach((child) {
-      var childName = child.tagName.toLowerCase();
-      var gvElem = new _GraphvizElem(_elemCounter++, child, currentElement.depth + 1);
-
-      _createElemDefinition(gvElem, result);
-      result.add('${currentElement.id} -> ${gvElem.id};');
-      _createGraph(gvElem, result);
+      addChildToGraph(currentElement, child, result);
     });
+    if (showShadowDom) {
+      if (currentElement.elem.isTemplate) {
+        currentElement.elem.content.children.forEach((child) {
+          addChildToGraph(currentElement, child, result);
+        });
+      }
+      if (currentElement.elem.shadowRoot != null) {
+        currentElement.elem.shadowRoot.children.forEach((child) {
+          addChildToGraph(currentElement, child, result);
+        });
+      }
+    }
+  }
+
+  void addChildToGraph(_GraphvizElem currentElement, child, List<String> result) {
+    var childName = child.tagName.toLowerCase();
+    var gvElem = new _GraphvizElem(_elemCounter++, child, currentElement.depth + 1);
+
+    _createElemDefinition(gvElem, result);
+    result.add('${currentElement.id} -> ${gvElem.id};');
+    _createGraph(gvElem, result);
   }
 
   void _createElemDefinition(_GraphvizElem gvElem, List<String> result) {

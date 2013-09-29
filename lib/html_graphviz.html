@@ -4,6 +4,10 @@
   <body>
     <polymer-element name='html-graphviz-element'>
       <template>
+        <label>
+          <input type="checkbox" checked="{{showShadowDom}}">
+          show shadow DOM
+        </label>
         <pre><code>
 digraph G {<template repeat="{{g in graph}}">
     {{g}}</template>

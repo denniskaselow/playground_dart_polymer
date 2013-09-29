@@ -22,7 +22,7 @@ class HtmlGraphviz extends PolymerElement with ObservableMixin {
     var result = new List<String>();
     var child = document.documentElement;
     var childName = child.tagName.toLowerCase();
-    var gvElem = new _GraphvizElem('$childName${_elemCounter++}', child);
+    var gvElem = new _GraphvizElem(_elemCounter++, child);
     _createElemDefinition(gvElem, result);
     _createGraph(gvElem, result);
     return result;
@@ -32,21 +32,21 @@ class HtmlGraphviz extends PolymerElement with ObservableMixin {
     var children = currentElement.children;
     children.forEach((child) {
       var childName = child.tagName.toLowerCase();
-      var gvElem = new _GraphvizElem('$childName${_elemCounter++}', child);
+      var gvElem = new _GraphvizElem(_elemCounter++, child);
 
       _createElemDefinition(gvElem, result);
-      result.add('"${currentElement.id}" -> "${gvElem.id}";');
+      result.add('${currentElement.id} -> ${gvElem.id};');
       _createGraph(gvElem, result);
     });
   }
 
   void _createElemDefinition(gvElem, result) {
-    result.add('"${gvElem.id}" [color="0.0, 0.0, 0.85", label="${gvElem.label}"];');
+    result.add('${gvElem.id} [color="0.0, 0.0, 0.85", label="${gvElem.label}"];');
   }
 }
 
 class _GraphvizElem {
-  String id;
+  int id;
   Element elem;
   _GraphvizElem(this.id, this.elem);
 

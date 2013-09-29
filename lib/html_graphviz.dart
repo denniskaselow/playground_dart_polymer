@@ -22,7 +22,7 @@ class HtmlGraphviz extends PolymerElement with ObservableMixin {
     var result = new List<String>();
     var child = document.documentElement;
     var childName = child.tagName.toLowerCase();
-    var gvElem = new _GraphvizElem(_elemCounter++, child);
+    var gvElem = new _GraphvizElem(_elemCounter++, child, 0);
     _createElemDefinition(gvElem, result);
     _createGraph(gvElem, result);
     return result;
@@ -32,7 +32,7 @@ class HtmlGraphviz extends PolymerElement with ObservableMixin {
     var children = currentElement.children;
     children.forEach((child) {
       var childName = child.tagName.toLowerCase();
-      var gvElem = new _GraphvizElem(_elemCounter++, child);
+      var gvElem = new _GraphvizElem(_elemCounter++, child, currentElement.depth + 1);
 
       _createElemDefinition(gvElem, result);
       result.add('${currentElement.id} -> ${gvElem.id};');
@@ -40,15 +40,18 @@ class HtmlGraphviz extends PolymerElement with ObservableMixin {
     });
   }
 
-  void _createElemDefinition(gvElem, result) {
-    result.add('${gvElem.id} [color="0.0, 0.0, 0.85", label="${gvElem.label}"];');
+  void _createElemDefinition(_GraphvizElem gvElem, List<String> result) {
+    double lightness = (gvElem.depth % 10) / 10;
+    String l = lightness.toStringAsFixed(1);
+    result.add('${gvElem.id} [color="0, 0, $l", label="${gvElem.label}"];');
   }
 }
 
 class _GraphvizElem {
   int id;
   Element elem;
-  _GraphvizElem(this.id, this.elem);
+  int depth;
+  _GraphvizElem(this.id, this.elem, this.depth);
 
   List<Element> get children => elem.children;
   String get label => elem.tagName.toLowerCase();

@@ -4,7 +4,7 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 
 @CustomTag('html-graphviz-element')
-class HtmlGraphviz extends PolymerElement with ObservableMixin {
+class HtmlGraphviz extends PolymerElement {
 
   @observable
   Element root;
@@ -14,8 +14,8 @@ class HtmlGraphviz extends PolymerElement with ObservableMixin {
   int _elemCounter = 0;
 
   HtmlGraphviz() {
-    bindProperty(this, const Symbol('root'), () => notifyProperty(this, const Symbol('graph')));
-    bindProperty(this, const Symbol('showShadowDom'), () => notifyProperty(this, const Symbol('graph')));
+    new PathObserver(this, 'root').changes.listen((_) => notifyProperty(this, #graph));
+    new PathObserver(this, 'showShadowDom').changes.listen((_) => notifyProperty(this, #graph));
   }
 
   List<String> get graph {

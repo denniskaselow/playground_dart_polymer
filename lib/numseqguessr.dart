@@ -50,7 +50,7 @@ class Sequence extends Object with ObservableMixin {
   @observable
   String solution;
   Sequence(this.numbers, this.expectedSolution) {
-    bindProperty(this, const Symbol('solution'), () => notifyProperty(this, const Symbol('solutionBackground')));
+    new PathObserver(this, 'solution').changes.listen((_) => notifyProperty(this, #solutionBackground));
   }
 
   String get solutionBackground {

@@ -32,8 +32,8 @@ class OpinionMatcher extends Object with ObservableMixin {
 
   OpinionMatcher(this.userOpinion, this.otherOpinions, {this.minValue: 1, this.maxValue: 10}) {
     maxDiff = maxValue - minValue;
-    bindProperty(userOpinion, const Symbol('value'), () => notifyProperty(this, const Symbol('value')));
-    bindProperty(userOpinion, const Symbol('value'), () => notifyProperty(this, const Symbol('getMatch')));
+    new PathObserver(userOpinion, 'value').changes.listen((_) => notifyProperty(this, #value));
+    new PathObserver(userOpinion, 'value').changes.listen((_) => notifyProperty(this, #getMatch));
   }
 
   String get id => userOpinion.id;
@@ -59,7 +59,7 @@ class OpinionMatcher extends Object with ObservableMixin {
 }
 
 @CustomTag('opinions-element')
-class OpinionsElement extends PolymerElement with ObservableMixin {
+class OpinionsElement extends PolymerElement {
 
   final ObservableList<OpinionMatcher> opinions = new ObservableList<OpinionMatcher>();
   final ObservableList<String> otherOpinions = new ObservableList<String>();
@@ -72,7 +72,7 @@ class OpinionsElement extends PolymerElement with ObservableMixin {
         var addedCount = (record as ListChangeRecord).addedCount;
 
         for (int i = index; i < index + addedCount; i++) {
-          bindProperty(opinions[i], const Symbol('value'), () => notifyProperty(this, const Symbol('getTotalMatch')));
+          new PathObserver(opinions[i], 'value').changes.listen((_) => notifyProperty(this, #getTotalMatch));
         }
       });
     });

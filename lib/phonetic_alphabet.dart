@@ -3,7 +3,7 @@ library phonetic_alphabet;
 import 'package:polymer/polymer.dart';
 
 @CustomTag('phonetic-alphabet-element')
-class PhoneticAlphabet extends PolymerElement with ObservableMixin {
+class PhoneticAlphabet extends PolymerElement {
   static const GERMAN = const {'a': 'Anton', 'ä': 'Ärger', 'b': 'Berta',
     'c': 'Cäsar', 'd': 'Dora', 'e': 'Emil', 'f': 'Friedrich',
     'g': 'Gustav', 'h': 'Heinrich', 'i': 'Ida', 'j': 'Julius', 'k': 'Kaufmann',
@@ -23,8 +23,10 @@ class PhoneticAlphabet extends PolymerElement with ObservableMixin {
   String text = '';
 
   PhoneticAlphabet() {
-    bindProperty(this, const Symbol('text'), () => notifyProperty(this, const Symbol('germanPhoneticAlphabet')));
-    bindProperty(this, const Symbol('text'), () => notifyProperty(this, const Symbol('natoPhoneticAlphabet')));
+    new PathObserver(this, 'text').changes.listen((_) {
+      notifyProperty(this, #germanPhoneticAlphabet);
+      notifyProperty(this, #natoPhoneticAlphabet);
+    });
   }
 
   String get germanPhoneticAlphabet => text.split('').map(convertGerman).join(' ');

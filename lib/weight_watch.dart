@@ -3,7 +3,7 @@ library weight_watch;
 import 'package:polymer/polymer.dart';
 
 @CustomTag('weight-watch-element')
-class WeightWatchElement extends PolymerElement with ObservableMixin {
+class WeightWatchElement extends PolymerElement {
 
   @observable
   String currentWeight, targetWeight, targetDate;
@@ -13,7 +13,7 @@ class WeightWatchElement extends PolymerElement with ObservableMixin {
   int daysLeft;
 
   WeightWatchElement() {
-    bindProperty(this, const Symbol('targetDate'), () {
+    new PathObserver(this, 'targetDate').changes.listen((_) {
       var diff = DateTime.parse(targetDate).difference(new DateTime.now());
       daysLeft = diff.inDays;
       weeksLeft = daysLeft ~/ 7;
@@ -21,12 +21,12 @@ class WeightWatchElement extends PolymerElement with ObservableMixin {
       notifyProperty(this, const Symbol('lossPerDay'));
       notifyProperty(this, const Symbol('lossPerWeek'));
     });
-    bindProperty(this, const Symbol('currentWeight'), () {
+    new PathObserver(this, 'currentWeight').changes.listen((_) {
       _currentWeight = double.parse(currentWeight);
       notifyProperty(this, const Symbol('lossPerDay'));
       notifyProperty(this, const Symbol('lossPerWeek'));
     });
-    bindProperty(this, const Symbol('targetWeight'), () {
+    new PathObserver(this, 'targetWeight').changes.listen((_) {
       _targetWeight = double.parse(targetWeight);
       notifyProperty(this, const Symbol('lossPerDay'));
       notifyProperty(this, const Symbol('lossPerWeek'));

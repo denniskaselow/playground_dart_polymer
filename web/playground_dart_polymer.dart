@@ -12,16 +12,24 @@ void main() {
   var numseqguessrElement = createElement('numseqguessr-element');
   var graphvizElement = createElement('html-graphviz-element');
   var weightWatchElement = createElement('weight-watch-element');
+  var tilemapElement = createElement('tilemap-element');
 
   tabs..add(new Item('Buchstabiertafel', phoneticAlphabetElement))
       ..add(new Item('Q&A', opinionsElement))
       ..add(new Item('NumberSequenceGuessr', numseqguessrElement))
       ..add(new Item('graphviz', graphvizElement))
-      ..add(new Item('WeightWatch', weightWatchElement));
+      ..add(new Item('WeightWatch', weightWatchElement))
+      ..add(new Item('''Drag'n'Drop Tiles''', tilemapElement));
 
   initOpinionsElement(opinionsElement);
   initNumSeqElement(numseqguessrElement);
   initHtmlGraphvizElement(graphvizElement);
+  initTilemapElement(tilemapElement);
+}
+
+void initTilemapElement(Element tilemapElement) {
+  var xtag = tilemapElement.xtag as TilemapElement;
+  xtag.tiles.addAll(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
 }
 
 void initOpinionsElement(opinionsElement) {

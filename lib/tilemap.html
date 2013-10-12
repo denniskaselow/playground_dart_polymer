@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <polymer-element name='tilemap-element'>
+      <template>
+        <style>
+          .tile {
+            width: 120px;
+            height: 120px;
+            border: 1px solid black;
+            margin: 4px;
+            display: inline-block;
+            border-radius: 8px;
+            background-color: #aabbcd;
+            cursor: pointer;
+          }
+          .ghost {
+            opacity: 0.5;
+          }
+          .over {
+            border-style: dashed;
+          }
+        </style>
+        <template repeat='{{tile in tiles}}'>
+          <div class='tile' draggable='true' on-dragstart='dragstart' on-dragend='dragend' on-drop='drop' on-dragenter='dragenter' on-dragleave='dragleave' on-dragover='dragover'>
+            {{tile}}
+          </div>
+        </template>
+      </template>
+      <script src='tilemap.dart' type='application/dart'></script>
+    </polymer-element>
+  </body>
+</html>

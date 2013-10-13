@@ -4,29 +4,71 @@
   <body>
     <polymer-element name='tilemap-element'>
       <template>
-        <style>
-          .tile {
+        <style>          
+          .container {
+            width: 1024px;
+          }
+          .tilecontainer {
+            width: 128px;
+            height: 128px;
+            display: inline-block;
+          }
+          .tile, #dragtile {
+            display: inline-block;
             width: 120px;
             height: 120px;
             border: 1px solid black;
-            margin: 4px;
-            display: inline-block;
+            margin: 3px;            
             border-radius: 8px;
             background-color: #aabbcd;
             cursor: pointer;
           }
           .ghost {
+            
             opacity: 0.5;
           }
-          .over {
-            border-style: dashed;
+          .tilecontainer.over {
+            width: 256px;
+            -webkit-animation-duration: 1s;
+            -webkit-animation-name: containerresize;
+          }
+          .tilecontainer.over > .tile, .tile.over {
+            margin-left: 131px;
+            -webkit-animation-duration: 1s;
+            -webkit-animation-name: tilemove;
+          }
+          @-webkit-keyframes containerresize {
+            from {
+              width: 128px;
+            }
+            to {
+              width: 256px;
+            }
+          }
+          @-webkit-keyframes tilemove {
+            from {
+              margin-left: 3px;
+            }
+            to {
+              margin-left: 131px;
+            }
+          }
+          #dragtile {
+            display: none;
+            opacity: 0.5;
+            z-index: 1;
           }
         </style>
-        <template repeat='{{tile in tiles}}'>
-          <div class='tile' draggable='true' on-dragstart='dragstart' on-dragend='dragend' on-drop='drop' on-dragenter='dragenter' on-dragleave='dragleave' on-dragover='dragover'>
-            {{tile}}
-          </div>
-        </template>
+        <div class='container'>
+          <template repeat='{{tileId in tileIds}}'>
+            <div data-id='{{tileId}}' class='tilecontainer' on-dragenter='dragenter' on-dragleave='dragleave' on-dragover='dragover' on-drop='drop'>
+              <div class='tile' draggable='true' on-dragstart='dragstart' on-dragend='dragend' on-drop='drop' on-dragenter='dragenter' on-dragleave='dragleave' on-dragover='dragover'>
+                {{tilemap[tileId].id}}
+              </div>
+            </div>
+          </template>
+        </div>
+        <div id='dragtile'></div>
       </template>
       <script src='tilemap.dart' type='application/dart'></script>
     </polymer-element>

@@ -29,7 +29,8 @@ void main() {
 
 void initTilemapElement(Element tilemapElement) {
   var xtag = tilemapElement.xtag as TilemapElement;
-  xtag.tiles.addAll(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
+  xtag.tilemap.addAll(new Map.fromIterable([0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      value: (item) => new Tile(item)));
 }
 
 void initOpinionsElement(opinionsElement) {

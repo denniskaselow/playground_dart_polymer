@@ -6,16 +6,18 @@ import 'package:polymer/polymer.dart';
 @CustomTag('html-graphviz-element')
 class HtmlGraphviz extends PolymerElement {
 
+
   @observable
   Element root;
+  List<String> _graph;
   @observable
   bool showShadowDom = false;
 
   int _elemCounter = 0;
 
-  HtmlGraphviz() {
-    new PathObserver(this, 'root').changes.listen((_) => notifyProperty(this, #graph));
-    new PathObserver(this, 'showShadowDom').changes.listen((_) => notifyProperty(this, #graph));
+  HtmlGraphviz.created() : super.created() {
+    new PathObserver(this, 'root').changes.listen((_) => _graph = notifyPropertyChange(#graph, _graph, graph));
+    new PathObserver(this, 'showShadowDom').changes.listen((_) => _graph = notifyPropertyChange(#graph, _graph, graph));
   }
 
   List<String> get graph {

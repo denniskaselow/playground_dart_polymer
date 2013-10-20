@@ -8,28 +8,29 @@ class WeightWatchElement extends PolymerElement {
   @observable
   String currentWeight, targetWeight, targetDate;
   double _currentWeight, _targetWeight;
+  String _lossPerDay, _lossPerWeek, _timeLeft;
 
   int weeksLeft;
   int daysLeft;
 
-  WeightWatchElement() {
+  WeightWatchElement.created() : super.created() {
     new PathObserver(this, 'targetDate').changes.listen((_) {
       var diff = DateTime.parse(targetDate).difference(new DateTime.now());
       daysLeft = diff.inDays;
       weeksLeft = daysLeft ~/ 7;
-      notifyProperty(this, const Symbol('timeLeft'));
-      notifyProperty(this, const Symbol('lossPerDay'));
-      notifyProperty(this, const Symbol('lossPerWeek'));
+      _timeLeft = notifyPropertyChange(#timeLeft, _timeLeft, timeLeft);
+      _lossPerDay = notifyPropertyChange(#lossPerDay, _lossPerDay, lossPerDay);
+      _lossPerWeek = notifyPropertyChange(#lossPerWeek, _lossPerWeek, lossPerWeek);
     });
     new PathObserver(this, 'currentWeight').changes.listen((_) {
       _currentWeight = double.parse(currentWeight);
-      notifyProperty(this, const Symbol('lossPerDay'));
-      notifyProperty(this, const Symbol('lossPerWeek'));
+      _lossPerDay = notifyPropertyChange(#lossPerDay, _lossPerDay, lossPerDay);
+      _lossPerWeek = notifyPropertyChange(#lossPerWeek, _lossPerWeek, lossPerWeek);
     });
     new PathObserver(this, 'targetWeight').changes.listen((_) {
       _targetWeight = double.parse(targetWeight);
-      notifyProperty(this, const Symbol('lossPerDay'));
-      notifyProperty(this, const Symbol('lossPerWeek'));
+      _lossPerDay = notifyPropertyChange(#lossPerDay, _lossPerDay, lossPerDay);
+      _lossPerWeek = notifyPropertyChange(#lossPerWeek, _lossPerWeek, lossPerWeek);
     });
   }
 

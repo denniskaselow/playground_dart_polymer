@@ -29,7 +29,7 @@ class TilemapElement extends PolymerElement {
   String bgConnectionState = BG_NO_CONNECTION;
 
 
-  TilemapElement() {
+  TilemapElement.created() : super.created() {
     tilemap.changes.listen((List<ChangeRecord> records) {
       records.where((record) => record is MapChangeRecord).forEach((MapChangeRecord record) {
         if (record.isInsert) {
@@ -38,6 +38,9 @@ class TilemapElement extends PolymerElement {
         }
       });
     });
+  }
+
+  enteredView() {
     connectWebsocket();
   }
 

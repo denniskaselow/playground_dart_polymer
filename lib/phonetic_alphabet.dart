@@ -21,11 +21,12 @@ class PhoneticAlphabet extends PolymerElement {
 
   @observable
   String text = '';
+  String _german, _nato;
 
-  PhoneticAlphabet() {
+  PhoneticAlphabet.created() : super.created() {
     new PathObserver(this, 'text').changes.listen((_) {
-      notifyProperty(this, #germanPhoneticAlphabet);
-      notifyProperty(this, #natoPhoneticAlphabet);
+      _german = notifyPropertyChange(#germanPhoneticAlphabet, _german, germanPhoneticAlphabet);
+      _nato = notifyPropertyChange(#natoPhoneticAlphabet, _nato, natoPhoneticAlphabet);
     });
   }
 

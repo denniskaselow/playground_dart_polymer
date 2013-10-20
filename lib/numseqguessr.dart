@@ -44,13 +44,14 @@ class QuadraticSequenceGenerator extends SequenceGenerator {
   }
 }
 
-class Sequence extends Object with ObservableMixin {
+class Sequence extends Object with Observable {
   List<num> numbers;
   num expectedSolution;
   @observable
   String solution;
+  String _solutionBackground;
   Sequence(this.numbers, this.expectedSolution) {
-    new PathObserver(this, 'solution').changes.listen((_) => notifyProperty(this, #solutionBackground));
+    new PathObserver(this, 'solution').changes.listen((_) => _solutionBackground = notifyPropertyChange(#solutionBackground, _solutionBackground, solutionBackground));
   }
 
   String get solutionBackground {
@@ -61,6 +62,8 @@ class Sequence extends Object with ObservableMixin {
 }
 
 @CustomTag('numseqguessr-element')
-class NumseqguessrElement extends PolymerElement with ObservableMixin {
+class NumseqguessrElement extends PolymerElement {
+  NumseqguessrElement.created() : super.created();
+
   var sequences = new ObservableList<Sequence>();
 }

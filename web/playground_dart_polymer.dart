@@ -6,14 +6,23 @@ import 'package:playground_dart_polymer/custom_elements.dart';
 var random = new Random();
 
 void main() {
-  var tabs = (query('#tabs').xtag as TabsElement).items;
-  var phoneticAlphabetElement = createElement('phonetic-alphabet-element');
-  var opinionsElement = createElement('opinions-element');
-  var numseqguessrElement = createElement('numseqguessr-element');
-  var graphvizElement = createElement('html-graphviz-element');
-  var weightWatchElement = createElement('weight-watch-element');
-  var tilemapElement = createElement('tilemap-element');
+  Polymer.register('tabs-element', TabsElement);
+  Polymer.register('phonetic-alphabet-element', PhoneticAlphabet);
+  Polymer.register('opinions-element', OpinionsElement);
+  Polymer.register('numseqguessr-element', NumseqguessrElement);
+  Polymer.register('html-graphviz-element', HtmlGraphviz);
+  Polymer.register('weight-watch-element', WeightWatchElement);
+  Polymer.register('tilemap-element', TilemapElement);
+  initPolymer();
 
+  var phoneticAlphabetElement = new Element.tag('phonetic-alphabet-element');
+  var opinionsElement = new Element.tag('opinions-element');
+  var numseqguessrElement = new Element.tag('numseqguessr-element');
+  var graphvizElement = new Element.tag('html-graphviz-element');
+  var weightWatchElement = new Element.tag('weight-watch-element');
+  var tilemapElement = new Element.tag('tilemap-element');
+
+  var tabs = (querySelector('#tabs') as TabsElement).items;
   tabs..add(new Item('Buchstabiertafel', phoneticAlphabetElement))
       ..add(new Item('Q&A', opinionsElement))
       ..add(new Item('NumberSequenceGuessr', numseqguessrElement))
@@ -27,14 +36,13 @@ void main() {
   initTilemapElement(tilemapElement);
 }
 
-void initTilemapElement(Element tilemapElement) {
-  var xtag = tilemapElement.xtag as TilemapElement;
-  xtag.tilemap.addAll(new Map.fromIterable([232450, 11020, 235340, 226410],
+void initTilemapElement(TilemapElement element) {
+  element.tilemap.addAll(new Map.fromIterable([232450, 11020, 235340, 226410],
       value: (item) => new Tile(item)));
 }
 
 void initOpinionsElement(opinionsElement) {
-  var opinionsElementXTag = opinionsElement.xtag as OpinionsElement;
+  var opinionsElementXTag = opinionsElement as OpinionsElement;
   List<Question> questions = [new Question('Did you like your breakfast?', ['It was gross!', 'Not so much.', 'I\'ve had better', 'It was okay', 'It was tasty', 'I had a mouthgasm!']),
                     new Question('Have you voted in the last election?', ['No', 'Yes']),
                     new Question('How much do you like this application?', ['WTF is this?!', 'Nope, it\'s ugly', 'Maybe', 'Yes', 'Yeah! It\'s awesome!'])
@@ -59,13 +67,13 @@ void initOpinionsElement(opinionsElement) {
 }
 
 void initNumSeqElement(numseqguessrElement) {
-  var numseqguessrElementXTag = numseqguessrElement.xtag as NumseqguessrElement;
+  var numseqguessrElementXTag = numseqguessrElement as NumseqguessrElement;
   for (int i = 0; i < 10; i++) {
     numseqguessrElementXTag.sequences.add(new SequenceGenerator().generate());
   }
 }
 
 void initHtmlGraphvizElement(graphvizElement) {
-  (graphvizElement.xtag as HtmlGraphviz).root = document.documentElement;
+  (graphvizElement as HtmlGraphviz).root = document.documentElement;
 }
 

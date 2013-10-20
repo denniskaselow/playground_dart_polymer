@@ -12,7 +12,7 @@ class Question {
   }
 }
 
-class Opinion extends Object with ObservableMixin {
+class Opinion extends Object with Observable {
   String id;
   @observable
   String value;
@@ -22,18 +22,22 @@ class Opinion extends Object with ObservableMixin {
   }
 }
 
-class OpinionMatcher extends Object with ObservableMixin {
+class OpinionMatcher extends Object with Observable {
   final Map<String, Opinion> otherOpinions;
   @observable
   final Opinion userOpinion;
   final int minValue;
   final int maxValue;
   int maxDiff;
+  String _value;
+  final Map<String, String> _match = new Map<String, String>();
 
   OpinionMatcher(this.userOpinion, this.otherOpinions, {this.minValue: 1, this.maxValue: 10}) {
     maxDiff = maxValue - minValue;
-    new PathObserver(userOpinion, 'value').changes.listen((_) => notifyProperty(this, #value));
-    new PathObserver(userOpinion, 'value').changes.listen((_) => notifyProperty(this, #getMatch));
+    new PathObserver(userOpinion, 'value').changes.listen((_) {
+      notifyPropertyChange(#value, _value, value);
+      _value = notifyPropertyChange(#getMatch, _value, value);
+    });
   }
 
   String get id => userOpinion.id;
@@ -65,14 +69,18 @@ class OpinionsElement extends PolymerElement {
   final ObservableList<String> otherOpinions = new ObservableList<String>();
   final ObservableMap<String, Question> questions = new ObservableMap<String, Question>();
 
-  OpinionsElement() {
+  Map<int, String> _value = new Map<int, String>();
+
+  OpinionsElement.created() : super.created() {
     opinions.changes.listen((List<ChangeRecord> records) {
       records.where((record) => record is ListChangeRecord).forEach((record) {
         var index = (record as ListChangeRecord).index;
         var addedCount = (record as ListChangeRecord).addedCount;
 
         for (int i = index; i < index + addedCount; i++) {
-          new PathObserver(opinions[i], 'value').changes.listen((_) => notifyProperty(this, #getTotalMatch));
+          new PathObserver(opinions[i], 'value').changes.listen((_) {
+            _value[i] = notifyPropertyChange(#getTotalMatch, _value[i], opinions[i].value);
+          });
         }
       });
     });

@@ -3,20 +3,20 @@ library tabs;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 
-class Item extends Object with ObservableMixin {
+class Item extends Object with Observable {
   String id, label;
   Element content;
   Item(this.label, this.content);
 }
 
 @CustomTag('tabs-element')
-class TabsElement extends PolymerElement with ObservableMixin {
+class TabsElement extends PolymerElement {
 
   var items = new ObservableList<Item>();
   var itemMap = new Map<String, Item>();
   String selectedId;
 
-  TabsElement() {
+  TabsElement.created() : super.created() {
     items.changes.listen((List<ChangeRecord> records) {
       records.where((record) => record is ListChangeRecord).forEach((record) {
         var index = (record as ListChangeRecord).index;
@@ -36,17 +36,17 @@ class TabsElement extends PolymerElement with ObservableMixin {
     if (id != selectedId && null != selectedId) {
       labelSelector = '#${selectedId}';
       contentSelector = '#${selectedId}_content';
-      shadowRoot.query(labelSelector).classes.remove('selected');
-      shadowRoot.query(contentSelector).classes.remove('selected');
+      shadowRoot.querySelector(labelSelector).classes.remove('selected');
+      shadowRoot.querySelector(contentSelector).classes.remove('selected');
     }
     selectedId = id;
     labelSelector = '#${selectedId}';
     contentSelector = '#${selectedId}_content';
-    shadowRoot.query(labelSelector).classes.add('selected');
-    var contentNode = shadowRoot.query(contentSelector);
+    shadowRoot.querySelector(labelSelector).classes.add('selected');
+    var contentNode = shadowRoot.querySelector(contentSelector);
     contentNode.classes.add('selected');
     if (contentNode.children.isEmpty) {
-      shadowRoot.query(contentSelector).children.add(itemMap[selectedId].content);
+      shadowRoot.querySelector(contentSelector).children.add(itemMap[selectedId].content);
     }
   }
 }

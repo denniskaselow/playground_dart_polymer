@@ -54,7 +54,9 @@ void scanDirectory(String path) {
           if (name == null) {
             name = appState['InstallDir'];
           }
-          games[appState['appid']] = name;
+          if (name != null) {
+            games[appState['appid']] = name;
+          }
         });
       }
     }, onError: (_) {});

@@ -12,6 +12,10 @@ class TilemapElement extends PolymerElement {
   // entering the parent when switching from child to parent in animation
   var inElement = new Map<int, int>();
   int draggedId;
+  @observable
+  String searchTerm, steamPath;
+  @observable
+  String result;
 
   TilemapElement() {
     tilemap.changes.listen((List<ChangeRecord> records) {
@@ -21,6 +25,19 @@ class TilemapElement extends PolymerElement {
           inElement[record.key] = 0;
         }
       });
+    });
+  }
+
+  void searchTermChanged(String value) {
+
+    HttpRequest.getString(Uri.encodeFull('http://127.0.0.1:8080/?term=$searchTerm')).then((data) {
+      print(data);
+    });
+  }
+
+  void steamPathChanged(String value) {
+    HttpRequest.getString(Uri.encodeFull('http://127.0.0.1:8080/?path=$steamPath')).then((data) {
+      print(data);
     });
   }
 

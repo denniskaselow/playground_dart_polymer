@@ -59,11 +59,20 @@
             z-index: 1;
           }
         </style>
+        <fieldset>
+          <legend>Please select a game</legend>
+          <input type="text" value='{{steamPath}}' placeholder="Path to your steam folder" />
+          <input type='text' value='{{searchTerm}}' placeholder="Name of the Game" />
+        </fieldset>
+        
         <div class='container'>
           <template repeat='{{tileId in tileIds}}'>
             <div data-id='{{tileId}}' class='tilecontainer' on-dragenter='dragenter' on-dragleave='dragleave' on-dragover='dragover' on-drop='drop'>
               <div class='tile' draggable='true' on-dragstart='dragstart' on-dragend='dragend' on-drop='drop' on-dragenter='dragenter' on-dragleave='dragleave' on-dragover='dragover'>
-                {{tilemap[tileId].id}}
+                <img src="http://steampowered.com/v/gfx/apps/{{tilemap[tileId].id}}/capsule_184x69.jpg" />
+                <img src="http://steampowered.com/v/gfx/apps/{{tilemap[tileId].id}}/header_292x136.jpg" />
+                <img src="http://steampowered.com/v/gfx/apps/{{tilemap[tileId].id}}/capsule_616x353.jpg" />
+                <img src="http://steampowered.com/v/gfx/apps/{{tilemap[tileId].id}}/capsule_sm_120.jpg" />                
               </div>
             </div>
           </template>

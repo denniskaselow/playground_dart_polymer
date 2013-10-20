@@ -1,12 +1,15 @@
 library tilemap;
 
 import 'dart:html';
+import 'dart:convert';
 import 'package:polymer/polymer.dart';
 
 @CustomTag('tilemap-element')
 class TilemapElement extends PolymerElement {
   var tilemap = new ObservableMap<int, Tile>();
   var tileIds = new ObservableList<int>();
+  var suggestions = new ObservableMap<String, String>();
+  var suggestionIds = new ObservableList<String>();
 
   // weird behaviour requires weird code :(. leave event gets fired after
   // entering the parent when switching from child to parent in animation
@@ -16,6 +19,7 @@ class TilemapElement extends PolymerElement {
   String searchTerm, steamPath;
   @observable
   String result;
+
 
   TilemapElement() {
     tilemap.changes.listen((List<ChangeRecord> records) {
@@ -29,28 +33,40 @@ class TilemapElement extends PolymerElement {
   }
 
   void searchTermChanged(String value) {
-
     HttpRequest.getString(Uri.encodeFull('http://127.0.0.1:8080/?term=$searchTerm')).then((data) {
-      print(data);
+      suggestions.clear();
+      suggestions.addAll(JSON.decode(data));
+      suggestionIds.clear();
+      suggestionIds.addAll(suggestions.keys);
+      suggestionIds.removeWhere((id) => tileIds.contains(int.parse(id)));
     });
   }
 
   void steamPathChanged(String value) {
-    HttpRequest.getString(Uri.encodeFull('http://127.0.0.1:8080/?path=$steamPath')).then((data) {
-      print(data);
-    });
+    HttpRequest.getString(Uri.encodeFull('http://127.0.0.1:8080/?path=$steamPath'));
   }
 
-  void dragstart(MouseEvent e, var detail, DivElement target) {
+  void addToTiles(MouseEvent e, var detail, Element target) {
+    var id = int.parse(target.dataset['id']);
+    suggestionIds.remove('$id');
+    tilemap[id] = new Tile(id);
+  }
+
+  void startGame(MouseEvent e, var detail, Element target) {
+    var id = int.parse(target.parent.dataset['id']);
+    HttpRequest.getString(Uri.encodeFull('steam://run/$id'));
+  }
+
+  void dragstart(MouseEvent e, var detail, Element target) {
     target.classes.add('ghost');
     draggedId = int.parse(target.parent.dataset['id']);
   }
 
-  void dragend(MouseEvent e, var detail, DivElement target) {
+  void dragend(MouseEvent e, var detail, Element target) {
     target.classes.remove('ghost');
   }
 
-  void drop(MouseEvent e, var detail, DivElement target) {
+  void drop(MouseEvent e, var detail, Element target) {
     if (target.classes.contains('tile')) {
       target = target.parent;
     }
@@ -64,7 +80,7 @@ class TilemapElement extends PolymerElement {
     }
   }
 
-  void dragenter(MouseEvent e, var detail, DivElement target) {
+  void dragenter(MouseEvent e, var detail, Element target) {
     if (target.classes.contains('tile')) {
       target = target.parent;
     }
@@ -75,11 +91,11 @@ class TilemapElement extends PolymerElement {
     }
   }
 
-  void dragover(MouseEvent e, var detail, DivElement target) {
+  void dragover(MouseEvent e, var detail, Element target) {
     e.preventDefault();
   }
 
-  void dragleave(MouseEvent e, var detail, DivElement target) {
+  void dragleave(MouseEvent e, var detail, Element target) {
     if (target.classes.contains('tile')) {
       target = target.parent;
     }
@@ -90,7 +106,7 @@ class TilemapElement extends PolymerElement {
     }
   }
 
-  int getTileId(DivElement target) {
+  int getTileId(Element target) {
     return int.parse(target.dataset['id']);
   }
 }

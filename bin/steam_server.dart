@@ -15,7 +15,9 @@ main() {
       } else if (params.containsKey('term')) {
         String term = params['term'];
         var result = new Map<String, String>();
-        games.keys.where((id) => games[id].toLowerCase().contains(term.toLowerCase())).forEach((id) => result[id] = games[id]);
+        if (term.length > 1) {
+          games.keys.where((id) => games[id].toLowerCase().contains(term.toLowerCase())).forEach((id) => result[id] = games[id]);
+        }
         response.write(JSON.encode(result));
       }
 
@@ -55,6 +57,6 @@ void scanDirectory(String path) {
           games[appState['appid']] = name;
         });
       }
-    }, onError: (e) => print(e));
-  });
+    }, onError: (_) {});
+  }, onError: (_) {});
 }

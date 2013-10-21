@@ -19,6 +19,8 @@ class TilemapElement extends PolymerElement {
   String searchTerm, steamPath;
   @observable
   String result;
+  @observable
+  String gameCount = '0';
 
 
   TilemapElement() {
@@ -30,6 +32,8 @@ class TilemapElement extends PolymerElement {
         }
       });
     });
+    WebSocket socket = new WebSocket('ws://127.0.0.1:8081');
+    socket.onMessage.listen((msgEvent) => gameCount = msgEvent.data);
   }
 
   void searchTermChanged(String value) {

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 
 Map<String, String> games = new Map<String, String>();
+WebSocket socket;
 
 main() {
   HttpServer.bind('127.0.0.1', 8080).then((server) {
@@ -26,6 +27,13 @@ main() {
     });
 
     print('the SteamServer is up and running, please proceed using the SteamTiles');
+  });
+  HttpServer.bind('127.0.0.1', 8081).then((server) {
+    server.listen((request) {
+      WebSocketTransformer.upgrade(request).then((incoming) {
+        socket = incoming;
+      });
+    });
   });
 }
 
@@ -58,6 +66,9 @@ void addGamesInDir(dir) {
         }
         if (id != null) {
           games[appState['appid']] = name;
+          if (socket != null) {
+            socket.add('${games.length}');
+          }
         }
       });
     }

@@ -85,7 +85,7 @@ String toJson(String content) {
   result = result.replaceAllMapped(new RegExp(r'^("[a-zA-Z]+")(\n)'), (m) => '${m[1]}:${m[2]}');
   result = result.replaceAllMapped(new RegExp(r'(\t+"[a-zA-Z]+")(\n)'), (m) => '${m[1]}:${m[2]}');
   result = result.replaceAllMapped(new RegExp(r'}(\s+)"'), (m) => '},${m[1]}"');
-  result = result.replaceAllMapped(new RegExp(r'("\w+")'), (m) => m[1].toLowerCase());
+  result = result.replaceAllMapped(new RegExp(r'("\w+":)'), (m) => m[1].toLowerCase());
   result = result.replaceAll('\\', '/');
   return '{$result}';
 }

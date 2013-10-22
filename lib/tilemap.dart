@@ -2,6 +2,7 @@ library tilemap;
 
 import 'dart:html';
 import 'dart:convert';
+import 'dart:async';
 import 'package:polymer/polymer.dart';
 
 @CustomTag('tilemap-element')
@@ -21,6 +22,8 @@ class TilemapElement extends PolymerElement {
   String result;
   @observable
   String gameCount = '0';
+  @observable
+  bool connected = false;
 
 
   TilemapElement() {
@@ -32,8 +35,17 @@ class TilemapElement extends PolymerElement {
         }
       });
     });
+    connectWebsocket();
+  }
+
+  void connectWebsocket() {
     WebSocket socket = new WebSocket('ws://127.0.0.1:8081');
     socket.onMessage.listen((msgEvent) => gameCount = msgEvent.data);
+    socket.onError.listen((_) {
+      print('Could not create WebSocket. Is the server running? Retrying in 10 seconds.');
+      new Timer(new Duration(seconds: 10), connectWebsocket);
+    });
+    socket.onOpen.listen((_) => connected = true);
   }
 
   void searchTermChanged(String value) {

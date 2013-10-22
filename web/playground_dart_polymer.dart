@@ -29,7 +29,7 @@ void main() {
 
 void initTilemapElement(Element tilemapElement) {
   var xtag = tilemapElement.xtag as TilemapElement;
-  xtag.tilemap.addAll(new Map.fromIterable([220],
+  xtag.tilemap.addAll(new Map.fromIterable([232450, 11020, 235340, 226410],
       value: (item) => new Tile(item)));
 }
 

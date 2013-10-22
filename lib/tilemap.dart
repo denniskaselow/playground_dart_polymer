@@ -7,6 +7,9 @@ import 'package:polymer/polymer.dart';
 
 @CustomTag('tilemap-element')
 class TilemapElement extends PolymerElement {
+  static const BG_NO_CONNECTION = '#F99';
+  static const BG_CONNECTION = '#9e9';
+
   var tilemap = new ObservableMap<int, Tile>();
   var tileIds = new ObservableList<int>();
   var suggestions = new ObservableMap<String, String>();
@@ -23,7 +26,7 @@ class TilemapElement extends PolymerElement {
   @observable
   String gameCount = '0';
   @observable
-  bool connected = false;
+  String bgConnectionState = BG_NO_CONNECTION;
 
 
   TilemapElement() {
@@ -42,10 +45,11 @@ class TilemapElement extends PolymerElement {
     WebSocket socket = new WebSocket('ws://127.0.0.1:8081');
     socket.onMessage.listen((msgEvent) => gameCount = msgEvent.data);
     socket.onError.listen((_) {
+      bgConnectionState = BG_NO_CONNECTION;
       print('Could not create WebSocket. Is the server running? Retrying in 10 seconds.');
       new Timer(new Duration(seconds: 10), connectWebsocket);
     });
-    socket.onOpen.listen((_) => connected = true);
+    socket.onOpen.listen((_) => bgConnectionState = BG_CONNECTION);
   }
 
   void searchTermChanged(String value) {

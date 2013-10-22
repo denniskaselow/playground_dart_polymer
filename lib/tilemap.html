@@ -60,8 +60,8 @@
         </style>
         <fieldset>
           <legend>Please select a game</legend>
-          <input type="text" value='{{steamPath}}' placeholder="Path to your steam folder" /> ({{gameCount}} games found)
-          <input type='text' value='{{searchTerm}}' placeholder="Name of the Game" />
+          <input type="text" value='{{steamPath}}' placeholder="Path to your steam folder" style='background-color:{{bgConnectionState}}' /> ({{gameCount}} games found)
+          <input type='text' value='{{searchTerm}}' placeholder="Name of the Game" style='background-color:{{bgConnectionState}}' />
         </fieldset>
         <div>          
           <template repeat='{{id in suggestionIds}}'>

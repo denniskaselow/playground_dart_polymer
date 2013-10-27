@@ -13,6 +13,7 @@ void main() {
   Polymer.register('html-graphviz-element', HtmlGraphviz);
   Polymer.register('weight-watch-element', WeightWatchElement);
   Polymer.register('tilemap-element', TilemapElement);
+  Polymer.register('calculator-element', CalculatorElement);
   initPolymer();
 
   var phoneticAlphabetElement = new Element.tag('phonetic-alphabet-element');
@@ -21,6 +22,7 @@ void main() {
   var graphvizElement = new Element.tag('html-graphviz-element');
   var weightWatchElement = new Element.tag('weight-watch-element');
   var tilemapElement = new Element.tag('tilemap-element');
+  var calculatorElement = new Element.tag('calculator-element');
 
   var tabs = (querySelector('#tabs') as TabsElement).items;
   tabs..add(new Item('Buchstabiertafel', phoneticAlphabetElement))
@@ -28,7 +30,8 @@ void main() {
       ..add(new Item('NumberSequenceGuessr', numseqguessrElement))
       ..add(new Item('graphviz', graphvizElement))
       ..add(new Item('WeightWatch', weightWatchElement))
-      ..add(new Item('''Drag'n'Drop Tiles''', tilemapElement));
+      ..add(new Item('''Drag'n'Drop Tiles''', tilemapElement))
+      ..add(new Item('Calculator', calculatorElement));
 
   initOpinionsElement(opinionsElement);
   initNumSeqElement(numseqguessrElement);

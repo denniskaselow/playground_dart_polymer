@@ -45,20 +45,25 @@ class QuadraticSequenceGenerator extends SequenceGenerator {
 }
 
 class Sequence extends Object with Observable {
+
+  @observable String solution;
+  @observable String solutionBackground = '#ddd';
+
   List<num> numbers;
   num expectedSolution;
-  @observable
-  String solution;
-  String _solutionBackground;
+
   Sequence(this.numbers, this.expectedSolution) {
-    new PathObserver(this, 'solution').changes.listen((_) => _solutionBackground = notifyPropertyChange(#solutionBackground, _solutionBackground, solutionBackground));
+    new PathObserver(this, 'solution').changes.listen((record) => solutionChanged(solution));
   }
 
-  String get solutionBackground {
-    if (null == solution || '' == solution) return '#ddd';
-    if (expectedSolution.toString() == solution) return '#9e9';
-    return '#F99';
+  void solutionChanged(String value) {
+    if (expectedSolution.toString() == solution) {
+      solutionBackground = '#9e9';
+    } else {
+      solutionBackground = '#f99';
+    }
   }
+
 }
 
 @CustomTag('numseqguessr-element')

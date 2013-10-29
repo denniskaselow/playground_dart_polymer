@@ -6,8 +6,8 @@ import 'package:polymer/polymer.dart';
 
 @CustomTag('calculator-element')
 class CalculatorElement extends PolymerElement {
-  @observable
-  num display = 0;
+  @observable num display = 0;
+
   int decimals = 0;
   int multi = 1;
 

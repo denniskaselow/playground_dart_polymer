@@ -6,16 +6,11 @@ import 'package:playground_dart_polymer/custom_elements.dart';
 var random = new Random();
 
 void main() {
-  Polymer.register('tabs-element', TabsElement);
-  Polymer.register('phonetic-alphabet-element', PhoneticAlphabet);
-  Polymer.register('opinions-element', OpinionsElement);
-  Polymer.register('numseqguessr-element', NumseqguessrElement);
-  Polymer.register('html-graphviz-element', HtmlGraphviz);
-  Polymer.register('weight-watch-element', WeightWatchElement);
-  Polymer.register('tilemap-element', TilemapElement);
-  Polymer.register('calculator-element', CalculatorElement);
   initPolymer();
+}
 
+@initMethod
+void _init() {
   var phoneticAlphabetElement = new Element.tag('phonetic-alphabet-element');
   var opinionsElement = new Element.tag('opinions-element');
   var numseqguessrElement = new Element.tag('numseqguessr-element');

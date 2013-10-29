@@ -6,21 +6,20 @@ import 'package:polymer/polymer.dart';
 @CustomTag('html-graphviz-element')
 class HtmlGraphviz extends PolymerElement {
 
+  @observable Element root;
+  @observable bool showShadowDom = false;
 
-  @observable
-  Element root;
   List<String> _graph;
-  @observable
-  bool showShadowDom = false;
-
   int _elemCounter = 0;
 
   HtmlGraphviz.created() : super.created() {
-    new PathObserver(this, 'root').changes.listen((_) => _graph = notifyPropertyChange(#graph, _graph, graph));
-    new PathObserver(this, 'showShadowDom').changes.listen((_) => _graph = notifyPropertyChange(#graph, _graph, graph));
+    new PathObserver(this, 'root').changes.listen((_) => _graph = notifyPropertyChange(#graph, _graph, computeGraph()));
+    new PathObserver(this, 'showShadowDom').changes.listen((_) => _graph = notifyPropertyChange(#graph, _graph, computeGraph()));
   }
 
-  List<String> get graph {
+  List<String> get graph => _graph;
+
+  List<String> computeGraph() {
     _elemCounter = 0;
     if (null == root) {
       return [''];
@@ -40,11 +39,6 @@ class HtmlGraphviz extends PolymerElement {
       addChildToGraph(currentElement, child, result);
     });
     if (showShadowDom) {
-      if (currentElement.elem.isTemplate) {
-        currentElement.elem.content.children.forEach((child) {
-          addChildToGraph(currentElement, child, result);
-        });
-      }
       if (currentElement.elem.shadowRoot != null) {
         currentElement.elem.shadowRoot.children.forEach((child) {
           addChildToGraph(currentElement, child, result);

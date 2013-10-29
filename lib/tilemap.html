@@ -65,14 +65,14 @@
         </fieldset>
         <div>          
           <template repeat='{{id in suggestionIds}}'>
-            <img class='suggestions' data-id='{{id}}' src='http://steampowered.com/v/gfx/apps/{{id}}/capsule_sm_120.jpg' title='Click to add {{suggestions[id]}}' on-click='addToTiles' />
+            <img class='suggestions' data-id='{{id}}' src='http://steampowered.com/v/gfx/apps/{{id}}/capsule_sm_120.jpg' title='Click to add {{suggestions[id]}}' on-click='{{addToTiles}}' />
           </template>
         </div>
         
         <div class='container'>
           <template repeat='{{tileId in tileIds}}'>
-            <a data-id='{{tileId}}' class='tilecontainer' on-dragenter='dragenter' on-dragleave='dragleave' on-dragover='dragover' on-drop='drop' href='steam://run/{{tileId}}'>
-              <span class='tile' draggable='true' on-dragstart='dragstart' on-dragend='dragend' on-drop='drop' on-dragenter='dragenter' on-dragleave='dragleave' on-dragover='dragover' style='background-image:url(http://steampowered.com/v/gfx/apps/{{tileId}}/header_292x136.jpg)'>
+            <a data-id='{{tileId}}' class='tilecontainer' on-dragenter='{{dragenter}}' on-dragleave='{{dragleave}}' on-dragover='{{dragover}}' on-drop='{{drop}}' href='steam://run/{{tileId}}'>
+              <span class='tile' draggable='true' on-dragstart='{{dragstart}}' on-dragend='{{dragend}}' on-drop='{{drop}}' on-dragenter='{{dragenter}}' on-dragleave='{{dragleave}}' on-dragover='{{dragover}}' style='background-image:url(http://steampowered.com/v/gfx/apps/{{tileId}}/header_292x136.jpg)'>
               </span>
             </a>
           </template>

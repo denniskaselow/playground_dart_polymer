@@ -13,9 +13,9 @@ class Question {
 }
 
 class Opinion extends Object with Observable {
+  @observable String value;
   String id;
-  @observable
-  String value;
+
   Opinion(this.id, [this.value]);
   Opinion otherOpinion(String value) {
     return new Opinion(id, value);
@@ -23,9 +23,9 @@ class Opinion extends Object with Observable {
 }
 
 class OpinionMatcher extends Object with Observable {
+  @observable final Opinion userOpinion;
+
   final Map<String, Opinion> otherOpinions;
-  @observable
-  final Opinion userOpinion;
   final int minValue;
   final int maxValue;
   int maxDiff;
@@ -35,14 +35,14 @@ class OpinionMatcher extends Object with Observable {
   OpinionMatcher(this.userOpinion, this.otherOpinions, {this.minValue: 1, this.maxValue: 10}) {
     maxDiff = maxValue - minValue;
     new PathObserver(userOpinion, 'value').changes.listen((_) {
-      notifyPropertyChange(#value, _value, value);
-      _value = notifyPropertyChange(#getMatch, _value, value);
+      notifyPropertyChange(#value, _value, userOpinion.value);
+      _value = notifyPropertyChange(#getMatch, _value, userOpinion.value);
     });
   }
 
   String get id => userOpinion.id;
 
-  String get value => userOpinion.value;
+  String get value => _value;
   void set value(String value) {
     userOpinion.value = value;
   }

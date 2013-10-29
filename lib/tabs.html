@@ -50,7 +50,7 @@
           <ul>
             <template repeat='{{item in items}}'>
               <li>
-                <div on-click='selectTab' class='label' id='{{item.id}}'>{{item.label}}</div>
+                <div on-click='{{selectTab}}' class='label' id='{{item.id}}'>{{item.label}}</div>
               </li>
             </template>
           </ul>

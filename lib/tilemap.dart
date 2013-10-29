@@ -10,6 +10,11 @@ class TilemapElement extends PolymerElement {
   static const BG_NO_CONNECTION = '#F99';
   static const BG_CONNECTION = '#9e9';
 
+  @observable String searchTerm, steamPath;
+  @observable String result;
+  @observable String gameCount = '0';
+  @observable String bgConnectionState = BG_NO_CONNECTION;
+
   var tilemap = new ObservableMap<int, Tile>();
   var tileIds = new ObservableList<int>();
   var suggestions = new ObservableMap<String, String>();
@@ -19,15 +24,6 @@ class TilemapElement extends PolymerElement {
   // entering the parent when switching from child to parent in animation
   var inElement = new Map<int, int>();
   int draggedId;
-  @observable
-  String searchTerm, steamPath;
-  @observable
-  String result;
-  @observable
-  String gameCount = '0';
-  @observable
-  String bgConnectionState = BG_NO_CONNECTION;
-
 
   TilemapElement.created() : super.created() {
     tilemap.changes.listen((List<ChangeRecord> records) {

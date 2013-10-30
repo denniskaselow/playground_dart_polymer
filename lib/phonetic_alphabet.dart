@@ -1,6 +1,10 @@
 library phonetic_alphabet;
 
+import 'dart:html';
+
 import 'package:polymer/polymer.dart';
+import 'package:template_binding/template_binding.dart';
+import 'package:polymer_expressions/polymer_expressions.dart';
 
 @CustomTag('phonetic-alphabet-element')
 class PhoneticAlphabet extends PolymerElement {
@@ -21,17 +25,15 @@ class PhoneticAlphabet extends PolymerElement {
 
   @observable
   String text = '';
-  String _german, _nato;
 
-  PhoneticAlphabet.created() : super.created() {
-    new PathObserver(this, 'text').changes.listen((_) {
-      _german = notifyPropertyChange(#germanPhoneticAlphabet, _german, germanPhoneticAlphabet);
-      _nato = notifyPropertyChange(#natoPhoneticAlphabet, _nato, natoPhoneticAlphabet);
-    });
+  PhoneticAlphabet.created() : super.created();
+
+  DocumentFragment instanceTemplate(Element template) {
+    return templateBind(template).createInstance(this, new PolymerExpressions(globals: {
+      'german': (text) => text.split('').map(convertGerman).join(' '),
+      'nato': (text) => text.split('').map(convertNato).join(' ')
+    }));
   }
-
-  String get germanPhoneticAlphabet => text.split('').map(convertGerman).join(' ');
-  String get natoPhoneticAlphabet => text.split('').map(convertNato).join(' ');
 
   String convertGerman(c) => convert(c, GERMAN);
   String convertNato(c) => convert(c, NATO);
@@ -44,3 +46,4 @@ class PhoneticAlphabet extends PolymerElement {
     return char;
   }
 }
+

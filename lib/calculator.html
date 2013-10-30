@@ -7,17 +7,18 @@
         <style>
           #calculator {
             display: inline-block;
-            margin: 10px;            
+            margin: 10px;
             background-color: #555;
           }
           #display {
-            width: 150px;
-            height: 30px;
+            width: 160px;
+            height: 20px;
             color: #555;
             background-color: #999;
             font-weight: bold;
             font-family: 'Lucida Console', Monaco, monospace;
             text-align: right;
+            margin: 5px;
           }
           button {
             width: 30px;
@@ -25,54 +26,67 @@
             color: white;
             background-color: #333;
             font-weight: bold;
+            padding: 1px 6px;
+          }
+          .equals {
+            width: 64px;
           }
         </style>
         <div id='calculator'>
-          <section id='display'>{{display}}</section>
+          <section id='display'>{{current}}</section>
           <table>
             <tbody>
               <tr>
                 <td>
-                  <button value='7' on-click='{{numberPressed}}'>7</button>
+                  <button value='7' on-click='{{number}}'>7</button>
                 </td>
                 <td>
-                  <button value='8' on-click='{{numberPressed}}'>8</button>
+                  <button value='8' on-click='{{number}}'>8</button>
                 </td>
                 <td>
-                  <button value='9' on-click='{{numberPressed}}'>9</button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <button value='4' on-click='{{numberPressed}}'>4</button>
-                </td>
-                <td>
-                  <button value='5' on-click='{{numberPressed}}'>5</button>
-                </td>
-                <td>
-                  <button value='6' on-click='{{numberPressed}}'>6</button>
+                  <button value='9' on-click='{{number}}'>9</button>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <button value='1' on-click='{{numberPressed}}'>1</button>
+                  <button value='4' on-click='{{number}}'>4</button>
                 </td>
                 <td>
-                  <button value='2' on-click='{{numberPressed}}'>2</button>
+                  <button value='5' on-click='{{number}}'>5</button>
                 </td>
                 <td>
-                  <button value='3' on-click='{{numberPressed}}'>3</button>
+                  <button value='6' on-click='{{number}}'>6</button>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <button value='0' on-click='{{numberPressed}}'>0</button>
+                  <button value='1' on-click='{{number}}'>1</button>
                 </td>
                 <td>
-                  <button value='.' on-click='{{decimalPressed}}'>.</button>
+                  <button value='2' on-click='{{number}}'>2</button>
                 </td>
                 <td>
-                  <button value='+/-' on-click='{{switchSign}}'>+/-</button>
+                  <button value='3' on-click='{{number}}'>3</button>
+                </td>
+                <td>
+                  <button on-click='{{addition}}'>+</button>
+                </td>
+                <td>
+                  <button on-click='{{subtraction}}'>-</button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button value='0' on-click='{{number}}'>0</button>
+                </td>
+                <td>
+                  <button on-click='{{decimal}}'>.</button>
+                </td>
+                <td>
+                  <button on-click='{{switchSign}}'>+/-</button>
+                </td>
+                <td colspan='2'>
+                  <button class='equals' on-click='{{evaluate}}'>=</button>
                 </td>
               </tr>
             </tbody>

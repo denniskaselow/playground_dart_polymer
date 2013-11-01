@@ -9,7 +9,7 @@ import 'package:decimal/decimal.dart';
 class CalculatorElement extends PolymerElement {
   @observable Decimal current = new Decimal.fromInt(0);
 
-  int decimals = 0;
+  int decimals = -1;
   int multi = 1;
   bool solved = false;
 
@@ -21,17 +21,20 @@ class CalculatorElement extends PolymerElement {
 
   void number(Event e, var detail, ButtonElement target) {
     if (solved) return;
-    if (decimals > 0) {
-      current = current + dec(multi) * dec(target.value) / dec(decimals);
-      decimals *= 10;
+    if (decimals == 0) {
+      current = dec('$current.${target.value}');
+      decimals++;
+    } else if (decimals > 0) {
+      current = dec('$current${target.value}');
+      decimals++;
     } else {
       current = current * dec(10) + dec(multi) * dec(target.value);
     }
   }
 
   void decimal(Event e, var detail, ButtonElement target) {
-    if (decimals == 0) {
-      decimals = 10;
+    if (decimals == -1) {
+      decimals = 0;
     }
   }
 
@@ -64,12 +67,39 @@ class CalculatorElement extends PolymerElement {
     }
   }
 
+  void removeLast(e, details, target) {
+    if (solved) return;
+    var asString = current.abs().toString();
+    var cut;
+    if (decimals > 0) {
+      cut = decimals == 1 ? 2 : 1;
+      decimals--;
+    } else {
+      cut = 1;
+      decimals = -1;
+    }
+    if (asString.length == 1) {
+      current = dec(0);
+    } else {
+      current = dec(multi) * dec(asString.substring(0, asString.length - cut));
+    }
+  }
+
+  void clear(e, details, target) {
+    operands.clear();
+    operations.clear();
+    solved = false;
+    current = dec(0);
+    decimals = -1;
+    multi = 1;
+  }
+
   void _prepareNextTerm(BinaryOperation operation) {
     operands.add(new NullaryTerm(current));
     operations.add(operation);
     solved = false;
     current = dec(0);
-    decimals = 0;
+    decimals = -1;
     multi = 1;
   }
 }

@@ -21,20 +21,59 @@
             margin: 5px;
           }
           button {
-            width: 30px;
-            height: 30px;
-            color: #d9dadf;
-            background-color: #484850;
-            font-weight: bold;
             padding: 1px 6px;
+            color: #d9dadf;
+            font-weight: bold;
           }
-          .equals {
-            width: 64px;
+          .main button {
+            font-size: 12px;
+            width: 45px;
+            height: 30px;
+            background-color: #484850;
+          }
+          .main button.equals {
+            width: 94px;
+          }
+          .functions button {
+            font-size: 10px;
+            width: 37px;
+            height: 20px;
+            background-color: #696864;
+          }
+          .functions button.clear {
+            background-color: #c62d25;
+          }
+          .functions tr {
+            outline: 1px solid #fbfbfb;
           }
         </style>
         <div id='calculator'>
           <section id='display'>{{current}}</section>
-          <table>
+          <table class='functions'>
+            <tbody>
+              <tr>
+                <td>
+                  <button></button>
+                </td>
+                <td>
+                  <button></button>
+                </td>
+                <td>
+                  <button></button>
+                </td>
+                <td>
+                  <button></button>
+                </td>
+                <td>
+                  <button on-click='{{removeLast}}'>&larr;</button>
+                </td>
+                <td>
+                  <button class='clear' on-click='{{clear}}'>C</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class='main'>
             <tbody>
               <tr>
                 <td>

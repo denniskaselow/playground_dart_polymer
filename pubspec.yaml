@@ -5,3 +5,4 @@ dependencies:
   js: any
   mdv: any
   polymer: any
+  decimal: any

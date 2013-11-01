@@ -25,6 +25,10 @@ packages:
     description: custom_element
     source: hosted
     version: "0.8.10"
+  decimal:
+    description: decimal
+    source: hosted
+    version: "0.0.4"
   html5lib:
     description: html5lib
     source: hosted
@@ -69,6 +73,10 @@ packages:
     description: polymer_expressions
     source: hosted
     version: "0.8.10"
+  rational:
+    description: rational
+    source: hosted
+    version: "0.0.5"
   shadow_dom:
     description: shadow_dom
     source: hosted

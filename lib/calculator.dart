@@ -3,11 +3,11 @@ library calculator;
 import 'dart:html';
 import 'dart:collection';
 import 'package:polymer/polymer.dart';
-
+import 'package:decimal/decimal.dart';
 
 @CustomTag('calculator-element')
 class CalculatorElement extends PolymerElement {
-  @observable num current = 0;
+  @observable Decimal current = new Decimal.fromInt(0);
 
   int decimals = 0;
   int multi = 1;
@@ -20,10 +20,10 @@ class CalculatorElement extends PolymerElement {
 
   void number(Event e, var detail, ButtonElement target) {
     if (decimals > 0) {
-      current = current + multi * int.parse(target.value) / decimals;
+      current = current + dec(multi) * dec(target.value) / dec(decimals);
       decimals *= 10;
     } else {
-      current = current * 10 + multi * int.parse(target.value);
+      current = current * dec(10) + dec(multi) * dec(target.value);
     }
   }
 
@@ -64,32 +64,41 @@ class CalculatorElement extends PolymerElement {
   void _prepareNextTerm(BinaryOperation operation) {
     operands.add(new NullaryTerm(current));
     operations.add(operation);
-    current = 0;
+    current = dec(0);
     decimals = 0;
     multi = 1;
   }
 }
 
-typedef num BinaryOperation(num operand1, num operand2);
+typedef Decimal BinaryOperation(Decimal operand1, Decimal operand2);
 
 abstract class Term {
-  num evaluate();
+  Decimal evaluate();
 }
 
 class NullaryTerm extends Term {
-  final num value;
+  final Decimal value;
   NullaryTerm(this.value);
-  num evaluate() => value;
+  Decimal evaluate() => value;
 }
 
 class BinaryTerm extends Term {
   Term operand1, operand2;
   BinaryOperation operation;
   BinaryTerm(this.operand1, this.operand2, this.operation);
-  num evaluate() => operation(operand1.evaluate(), operand2.evaluate());
+  Decimal evaluate() => operation(operand1.evaluate(), operand2.evaluate());
 }
 
 class Operations {
-  static num addition(num operand1, num operand2) => operand1 + operand2;
-  static num subtraction(num operand1, num operand2) => operand1 - operand2;
+  static Decimal addition(Decimal operand1, Decimal operand2) => operand1 + operand2;
+  static Decimal subtraction(Decimal operand1, Decimal operand2) => operand1 - operand2;
+}
+
+Decimal dec(dynamic value) {
+  if (value is int) {
+    return new Decimal.fromInt(value);
+  } else if (value is String) {
+    return Decimal.parse(value);
+  }
+  throw 'type ${value.runtimeType} of $value is not supported';
 }

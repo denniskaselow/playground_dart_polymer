@@ -11,6 +11,7 @@ class CalculatorElement extends PolymerElement {
 
   int decimals = 0;
   int multi = 1;
+  bool solved = false;
 
   BinaryOperation operation;
   var operands = new Queue<Term>();
@@ -19,6 +20,7 @@ class CalculatorElement extends PolymerElement {
   CalculatorElement.created() : super.created();
 
   void number(Event e, var detail, ButtonElement target) {
+    if (solved) return;
     if (decimals > 0) {
       current = current + dec(multi) * dec(target.value) / dec(decimals);
       decimals *= 10;
@@ -58,12 +60,14 @@ class CalculatorElement extends PolymerElement {
       throw 'Try again later, trying to figure out what went wrong.';
     } else {
       current = operands.removeFirst().evaluate();
+      solved = true;
     }
   }
 
   void _prepareNextTerm(BinaryOperation operation) {
     operands.add(new NullaryTerm(current));
     operations.add(operation);
+    solved = false;
     current = dec(0);
     decimals = 0;
     multi = 1;

@@ -17,8 +17,8 @@ class TabsElement extends PolymerElement {
   String selectedId;
 
   TabsElement.created() : super.created() {
-    items.changes.listen((List<ChangeRecord> records) {
-      records.where((record) => record is ListChangeRecord).forEach((record) {
+    items.listChanges.listen((List<ListChangeRecord> records) {
+      records.forEach((record) {
         var index = (record as ListChangeRecord).index;
         var addedCount = (record as ListChangeRecord).addedCount;
 

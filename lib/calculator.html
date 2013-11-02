@@ -31,7 +31,7 @@
             height: 30px;
             background-color: #484850;
           }
-          .main button.equals {
+          .main button.solve {
             width: 94px;
           }
           .functions button {
@@ -96,6 +96,12 @@
                 <td>
                   <button value='6' on-click='{{number}}'>6</button>
                 </td>
+                <td>
+                  <button on-click='{{operation}}' data-op='multiplication'>&times;</button>
+                </td>
+                <td>
+                  <button on-click='{{operation}}' data-op='division'>&divide;</button>
+                </td>
               </tr>
               <tr>
                 <td>
@@ -125,12 +131,15 @@
                   <button on-click='{{switchSign}}'>+/-</button>
                 </td>
                 <td colspan='2'>
-                  <button class='equals' on-click='{{evaluate}}'>=</button>
+                  <button class='solve' on-click='{{solve}}'>=</button>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+        <template repeat='{{term in history}}'>
+          <div>{{term}} = {{term.evaluate()}}</div>
+        </template>
       </template>
       <script src="calculator.dart" type="application/dart"></script>
     </polymer-element>

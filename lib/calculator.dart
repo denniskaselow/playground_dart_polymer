@@ -13,7 +13,7 @@ class CalculatorElement extends PolymerElement {
   int multi = 1;
   bool solved = false;
 
-  BinaryOperation operation;
+  BinaryOperation currentOperation;
   var operands = new Queue<Term>();
   var operations = new Queue<BinaryOperation>();
 
@@ -43,13 +43,9 @@ class CalculatorElement extends PolymerElement {
     current = -current;
   }
 
-  void addition(Event e, var detail, ButtonElement target) {
-    _prepareNextTerm(Operations.addition);
-  }
+  void operation(Event e, var detail, ButtonElement target) =>
+      _prepareNextTerm(Operations.op[target.dataset['op']]);
 
-  void subtraction(Event e, var detail, ButtonElement target) {
-    _prepareNextTerm(Operations.subtraction);
-  }
 
   void evaluate(e, detail, target) {
     operands.add(new NullaryTerm(current));
@@ -124,6 +120,9 @@ class BinaryTerm extends Term {
 }
 
 class Operations {
+  static Map<String, BinaryOperation> op = {'addition': addition,
+                                     'subtraction': subtraction
+                                     };
   static Decimal addition(Decimal operand1, Decimal operand2) => operand1 + operand2;
   static Decimal subtraction(Decimal operand1, Decimal operand2) => operand1 - operand2;
 }

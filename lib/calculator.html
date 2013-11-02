@@ -11,7 +11,7 @@
             background-color: #6e7884;
           }
           #display {
-            width: 160px;
+            width: 240px;
             height: 20px;
             color: #555;
             background-color: #c4c8b7;
@@ -108,10 +108,10 @@
                   <button value='3' on-click='{{number}}'>3</button>
                 </td>
                 <td>
-                  <button on-click='{{addition}}'>+</button>
+                  <button on-click='{{operation}}' data-op='addition'>+</button>
                 </td>
                 <td>
-                  <button on-click='{{subtraction}}'>-</button>
+                  <button on-click='{{operation}}' data-op='subtraction'>-</button>
                 </td>
               </tr>
               <tr>

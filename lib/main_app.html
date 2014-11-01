@@ -51,13 +51,23 @@
     <div class="container" style="display:none" id="repoLoadProgress">
       <paper-progress value="{{repoLoadProgress}}"></paper-progress>
     </div>
-    <div class="container" style="display:none" id="repocontainer">
+    <div class="container" style="display:none" id="repoContainer">
       <paper-dropdown-menu selected="{{reposelection}}" label="Select a repository..." valueattr="label" class="input">
         <template repeat="{{repo in repos}}">
           <paper-item label="{{repo.name}}"></paper-item>
         </template>
       </paper-dropdown-menu>
-      <paper-button label="Analyze" raisedButton class="button"></paper-button>
+      <paper-button label="Analyze" raisedButton class="button" on-click="{{analyzeForks}}"></paper-button>
+    </div>
+    <div class="container" style="display:none" id="forkLoadProgress">
+      <paper-progress value="{{forkLoadProgress}}"></paper-progress>
+    </div>
+    <div class="container" style="display:none" id="forkContainer">
+      <paper-dropdown-menu label="Select a fork..." valueattr="label" class="input">
+        <template repeat="{{fork in forks}}">
+          <paper-item label="{{fork.fullName}}"></paper-item>
+        </template>
+      </paper-dropdown-menu>
     </div>
 
   </template>

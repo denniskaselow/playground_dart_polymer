@@ -9,7 +9,10 @@ class MainApp extends PolymerElement {
   @observable String username = '';
   @observable String reposelection = '';
   @observable int repoLoadProgress = 0;
+  @observable int forkLoadProgress = 0;
   final List<Repository> repos = toObservable([]);
+  final List<Repository> forks = toObservable([]);
+  final Map<String, int> forkCounts = new Map<String, int>();
 
   GitHub gh = createGitHubClient();
 
@@ -28,30 +31,50 @@ class MainApp extends PolymerElement {
         var tmpRepos = [];
         repos.clear();
 
-        var repoLoadPregressbar = shadowRoot.querySelector('#repoLoadProgress');
-        var repocontainer = shadowRoot.querySelector('#repocontainer');
-        repoLoadPregressbar.style.removeProperty('display');
-        repocontainer.style.display = 'none';
-
         var dropdown = shadowRoot.querySelector('paper-dropdown-menu').shadowRoot.querySelector('#dropdown');
         // otherwise it'll have the height of the first time it was opened
         dropdown.style.removeProperty('height');
 
+        var repoLoadPregressbar = shadowRoot.querySelector('#repoLoadProgress');
+        var repoContainer = shadowRoot.querySelector('#repoContainer');
+        repoLoadPregressbar.style.removeProperty('display');
+        repoContainer.style.display = 'none';
+
         gh.repositories.listUserRepositories(username).listen((repo) {
           tmpRepos.add(repo);
+          forkCounts[repo.name] = repo.forksCount;
           reposLoaded++;
           repoLoadProgress = 100 * reposLoaded ~/ repoCount;
         }).onDone(() {
           repoLoadPregressbar.style.display = 'none';
           repos.addAll(tmpRepos);
-          shadowRoot.querySelector('#repocontainer').style.removeProperty('display');
+          repoContainer.style.removeProperty('display');
         });
       }
     });
   }
 
+  void analyzeForks(var e, var detail, var target) {
+    forks.clear();
+    forkLoadProgress = 0;
+    var tmpForks = [];
+
+    var forkLoadPregressbar = shadowRoot.querySelector('#forkLoadProgress');
+    var forkContainer = shadowRoot.querySelector('#forkContainer');
+    forkLoadPregressbar.style.removeProperty('display');
+    forkContainer.style.display = 'none';
+
+    gh.repositories.listForks(new RepositorySlug(username, reposelection)).listen((repo) {
+      tmpForks.add(repo);
+    }).onDone(() {
+      forkLoadPregressbar.style.display = 'none';
+      forks.addAll(tmpForks);
+      forkContainer.style.removeProperty('display');
+    });
+  }
+
   void usernameChanged(String oldValue, String newValue) {
-    shadowRoot.querySelector('#repocontainer').style.display = 'none';
+    shadowRoot.querySelector('#repoContainer').style.display = 'none';
     reposelection = '';
   }
 

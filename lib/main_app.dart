@@ -7,6 +7,8 @@ import 'package:github/browser.dart';
 @CustomTag('main-app')
 class MainApp extends PolymerElement {
   @observable String username = '';
+  @observable String reposelection = '';
+  @observable int repoLoadProgress = 0;
   final List<Repository> repos = toObservable([]);
 
   GitHub gh = createGitHubClient();
@@ -15,18 +17,34 @@ class MainApp extends PolymerElement {
   MainApp.created() : super.created();
 
   void showRepos(var e, var detail, var target) {
-    print(username);
+    reposelection = '';
     gh.users.getUser(username).then((user) {
       if (null == user) {
 
       } else {
+        var repoCount = user.publicReposCount;
+        var reposLoaded = 0;
+        repoLoadProgress = 0;
+        var tmpRepos = [];
         repos.clear();
-        shadowRoot.querySelector('#repocontainer').style.removeProperty('display');
+
+        var repoLoadPregressbar = shadowRoot.querySelector('#repoLoadProgress');
+        var repocontainer = shadowRoot.querySelector('#repocontainer');
+        repoLoadPregressbar.style.removeProperty('display');
+        repocontainer.style.display = 'none';
+
         var dropdown = shadowRoot.querySelector('paper-dropdown-menu').shadowRoot.querySelector('#dropdown');
         // otherwise it'll have the height of the first time it was opened
         dropdown.style.removeProperty('height');
+
         gh.repositories.listUserRepositories(username).listen((repo) {
-          repos.add(repo);
+          tmpRepos.add(repo);
+          reposLoaded++;
+          repoLoadProgress = 100 * reposLoaded ~/ repoCount;
+        }).onDone(() {
+          repoLoadPregressbar.style.display = 'none';
+          repos.addAll(tmpRepos);
+          shadowRoot.querySelector('#repocontainer').style.removeProperty('display');
         });
       }
     });
@@ -34,6 +52,7 @@ class MainApp extends PolymerElement {
 
   void usernameChanged(String oldValue, String newValue) {
     shadowRoot.querySelector('#repocontainer').style.display = 'none';
+    reposelection = '';
   }
 
   // Optional lifecycle methods - uncomment if needed.

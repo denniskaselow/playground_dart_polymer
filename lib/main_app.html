@@ -10,6 +10,7 @@
 <link rel="import" href="../../packages/paper_elements/paper_button.html">
 <link rel="import" href="../../packages/paper_elements/paper_item.html">
 <link rel="import" href="../../packages/paper_elements/paper_dropdown_menu.html">
+<link rel="import" href="../../packages/paper_elements/paper_progress.html">
 
 <polymer-element name="main-app">
   <template>
@@ -21,6 +22,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        height: 50px;
+      }
+      paper-progress {
+        width: 500px;
+        height: 8px;
       }
       .input {
         flex-basis: 300px;
@@ -42,8 +48,11 @@
       <paper-input label="Enter GitHub username..." inputValue="{{username}}" class="input"></paper-input>
       <paper-button label="Show repositories" raisedButton class="button" on-click="{{showRepos}}"></paper-button>
     </div>
+    <div class="container" style="display:none" id="repoLoadProgress">
+      <paper-progress value="{{repoLoadProgress}}"></paper-progress>
+    </div>
     <div class="container" style="display:none" id="repocontainer">
-      <paper-dropdown-menu label="Select a repository..." valueattr="label" class="input">
+      <paper-dropdown-menu selected="{{reposelection}}" label="Select a repository..." valueattr="label" class="input">
         <template repeat="{{repo in repos}}">
           <paper-item label="{{repo.name}}"></paper-item>
         </template>

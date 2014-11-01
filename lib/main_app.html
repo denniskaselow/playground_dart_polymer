@@ -7,6 +7,9 @@
 <link rel="import" href="../../packages/polymer/polymer.html">
 
 <link rel="import" href="../../packages/paper_elements/paper_input.html">
+<link rel="import" href="../../packages/paper_elements/paper_button.html">
+<link rel="import" href="../../packages/paper_elements/paper_item.html">
+<link rel="import" href="../../packages/paper_elements/paper_dropdown_menu.html">
 
 <polymer-element name="main-app">
   <template>
@@ -14,13 +17,40 @@
       :host {
         display: block;
       }
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .input {
+        flex-basis: 300px;
+      }
+      .button {
+        flex-basis: 200px;
+      }
+      paper-dropdown-menu::shadow #menu {
+        background-color: #fafafa;
+      }
+      paper-dropdown-menu::shadow #dropdown {
+        width: 300px;
+      }
+      paper-item:hover {
+        background-color: #e0e0e0;
+      }
     </style>
+    <div class="container">
+      <paper-input label="Enter GitHub username..." inputValue="{{username}}" class="input"></paper-input>
+      <paper-button label="Show repositories" raisedButton class="button" on-click="{{showRepos}}"></paper-button>
+    </div>
+    <div class="container" style="display:none" id="repocontainer">
+      <paper-dropdown-menu label="Select a repository..." valueattr="label" class="input">
+        <template repeat="{{repo in repos}}">
+          <paper-item label="{{repo.name}}"></paper-item>
+        </template>
+      </paper-dropdown-menu>
+      <paper-button label="Analyze" raisedButton class="button"></paper-button>
+    </div>
 
-    <paper-input label="Type something..." inputValue="{{input}}"></paper-input>
-
-    <p>
-      Reversed: {{ reversed }}
-    </p>
   </template>
   <script type="application/dart" src="main_app.dart"></script>
 </polymer-element>

@@ -1,21 +1,39 @@
-// Copyright (c) 2014, <your name>. All rights reserved. Use of this source code
-// is governed by a BSD-style license that can be found in the LICENSE file.
-
 import 'dart:html';
 
 import 'package:polymer/polymer.dart';
+import 'package:github/browser.dart';
 
 /// A Polymer `<main-app>` element.
 @CustomTag('main-app')
 class MainApp extends PolymerElement {
-  @observable String input = '';
-  @observable String reversed = '';
+  @observable String username = '';
+  final List<Repository> repos = toObservable([]);
+
+  GitHub gh = createGitHubClient();
 
   /// Constructor used to create instance of MainApp.
   MainApp.created() : super.created();
 
-  void inputChanged(String oldValue, String newValue) {
-    reversed = input.split('').reversed.join('');
+  void showRepos(var e, var detail, var target) {
+    print(username);
+    gh.users.getUser(username).then((user) {
+      if (null == user) {
+
+      } else {
+        repos.clear();
+        shadowRoot.querySelector('#repocontainer').style.removeProperty('display');
+        var dropdown = shadowRoot.querySelector('paper-dropdown-menu').shadowRoot.querySelector('#dropdown');
+        // otherwise it'll have the height of the first time it was opened
+        dropdown.style.removeProperty('height');
+        gh.repositories.listUserRepositories(username).listen((repo) {
+          repos.add(repo);
+        });
+      }
+    });
+  }
+
+  void usernameChanged(String oldValue, String newValue) {
+    shadowRoot.querySelector('#repocontainer').style.display = 'none';
   }
 
   // Optional lifecycle methods - uncomment if needed.

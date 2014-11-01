@@ -1,6 +1,7 @@
+.DS_Store
+.idea
+.pub/
+.buildlog
+build/
 packages
-
-/deploy
-
-/web/out
-/.buildlog
+pubspec.lock

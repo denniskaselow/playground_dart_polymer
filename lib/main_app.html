@@ -24,6 +24,14 @@
         align-items: center;
         height: 50px;
       }
+      #forkContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #forkContainer > table {
+        flex-basis: 500px;
+      }
       paper-progress {
         width: 500px;
         height: 8px;
@@ -62,12 +70,23 @@
     <div class="container" style="display:none" id="forkLoadProgress">
       <paper-progress value="{{forkLoadProgress}}"></paper-progress>
     </div>
-    <div class="container" style="display:none" id="forkContainer">
-      <paper-dropdown-menu label="Select a fork..." valueattr="label" class="input">
-        <template repeat="{{fork in forks}}">
-          <paper-item label="{{fork.fullName}}"></paper-item>
-        </template>
-      </paper-dropdown-menu>
+    <div style="display:none" id="forkContainer">
+      <table>
+        <thead>
+          <tr>
+            <th>Fork</th>
+            <th>Open Issues</th>
+            <th>Stars</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr template repeat="{{fork in forks}}">
+            <td>{{fork.fullName}}</td>
+            <td>{{fork.openIssuesCount}}</td>
+            <td>{{fork.stargazersCount}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   </template>

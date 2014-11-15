@@ -26,7 +26,6 @@ class MainApp extends PolymerElement {
 
       } else {
         var repoCount = user.publicReposCount;
-        var reposLoaded = 0;
         repoLoadProgress = 0;
         var tmpRepos = [];
         repos.clear();
@@ -43,8 +42,7 @@ class MainApp extends PolymerElement {
         gh.repositories.listUserRepositories(username).listen((repo) {
           tmpRepos.add(repo);
           forkCounts[repo.name] = repo.forksCount;
-          reposLoaded++;
-          repoLoadProgress = 100 * reposLoaded ~/ repoCount;
+          repoLoadProgress = 100 * tmpRepos.length ~/ repoCount;
         }).onDone(() {
           repoLoadPregressbar.style.display = 'none';
           repos.addAll(tmpRepos);
@@ -58,6 +56,7 @@ class MainApp extends PolymerElement {
     forks.clear();
     forkLoadProgress = 0;
     var tmpForks = [];
+    var forksCount = forkCounts[reposelection];
 
     var forkLoadPregressbar = shadowRoot.querySelector('#forkLoadProgress');
     var forkContainer = shadowRoot.querySelector('#forkContainer');
@@ -66,6 +65,7 @@ class MainApp extends PolymerElement {
 
     gh.repositories.listForks(new RepositorySlug(username, reposelection)).listen((repo) {
       tmpForks.add(repo);
+      forkLoadProgress = 100 * tmpForks.length ~/ forksCount;
     }).onDone(() {
       forkLoadPregressbar.style.display = 'none';
       forks.addAll(tmpForks);
@@ -75,6 +75,7 @@ class MainApp extends PolymerElement {
 
   void usernameChanged(String oldValue, String newValue) {
     shadowRoot.querySelector('#repoContainer').style.display = 'none';
+    shadowRoot.querySelector('#forkContainer').style.display = 'none';
     reposelection = '';
   }
 

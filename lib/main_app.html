@@ -75,15 +75,15 @@
         <thead>
           <tr>
             <th>Fork</th>
-            <th>Open Issues</th>
-            <th>Stars</th>
+            <th>Commits</th>
+            <th>Commits not in base</th>
           </tr>
         </thead>
         <tbody>
           <tr template repeat="{{fork in forks}}">
             <td>{{fork.fullName}}</td>
-            <td>{{fork.openIssuesCount}}</td>
-            <td>{{fork.stargazersCount}}</td>
+            <td flex>{{commitCounts[fork.fullName]}}</td>
+            <td flex>{{commitsInForkCounts[fork.fullName]}}</td>
           </tr>
         </tbody>
       </table>

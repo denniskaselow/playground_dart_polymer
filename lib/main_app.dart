@@ -12,7 +12,10 @@ class MainApp extends PolymerElement {
   @observable int forkLoadProgress = 0;
   final List<Repository> repos = toObservable([]);
   final List<Repository> forks = toObservable([]);
+  final Map<String, int> commitCounts = toObservable({});
+  final Map<String, int> commitsInForkCounts = toObservable({});
   final Map<String, int> forkCounts = new Map<String, int>();
+  final Set<String> commitsInSelectedRepo = new Set<String>();
 
   GitHub gh = createGitHubClient();
 
@@ -62,16 +65,32 @@ class MainApp extends PolymerElement {
     var forkContainer = shadowRoot.querySelector('#forkContainer');
     forkLoadPregressbar.style.removeProperty('display');
     forkContainer.style.display = 'none';
-
-    gh.repositories.listForks(new RepositorySlug(username, reposelection)).listen((repo) {
-      tmpForks.add(repo);
-      forkLoadProgress = 100 * tmpForks.length ~/ forksCount;
+    var originalRepo = new RepositorySlug(username, reposelection);
+    gh.repositories.listCommits(originalRepo).listen((commit) {
+      commitsInSelectedRepo.add(commit.sha);
     }).onDone(() {
-      forkLoadPregressbar.style.display = 'none';
-      forks.addAll(tmpForks);
-      forkContainer.style.removeProperty('display');
+      gh.repositories.listForks(originalRepo).listen((repo) {
+        tmpForks.add(repo);
+        forkLoadProgress = 100 * tmpForks.length ~/ forksCount;
+
+        commitCounts[repo.fullName] = 0;
+        commitsInForkCounts[repo.fullName] = 0;
+
+        gh.repositories.listCommits(new RepositorySlug.full(repo.fullName)).listen((commit) {
+          commitCounts[repo.fullName]++;
+          if (!commitsInSelectedRepo.contains(commit.sha)) {
+            commitsInForkCounts[repo.fullName]++;
+          }
+        });
+      }).onDone(() {
+        forkLoadPregressbar.style.display = 'none';
+        forks.addAll(tmpForks);
+        forkContainer.style.removeProperty('display');
+      });
     });
   }
+
+
 
   void usernameChanged(String oldValue, String newValue) {
     shadowRoot.querySelector('#repoContainer').style.display = 'none';
